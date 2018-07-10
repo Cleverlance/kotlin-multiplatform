@@ -1,8 +1,4 @@
-package org.greeting
-
-expect class Platform() {
-    val platform: String
-}
+package jh.greeting
 
 class Greeting {
     fun greeting(): String = "Hello, ${Platform().platform}"

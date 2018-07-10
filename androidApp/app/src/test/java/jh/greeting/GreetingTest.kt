@@ -1,6 +1,5 @@
-package org.konan.multiplatform
+package jh.greeting
 
-import org.greeting.Greeting
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith
