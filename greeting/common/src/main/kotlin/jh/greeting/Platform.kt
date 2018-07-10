@@ -1,5 +1,5 @@
 package jh.greeting
 
-expect class Platform() {
+internal expect class Platform() {
     val platform: String
 }
