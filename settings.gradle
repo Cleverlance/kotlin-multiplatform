@@ -1,0 +1,3 @@
+include ':greeting'
+include ':greeting:common'
+include ':greeting:android'
