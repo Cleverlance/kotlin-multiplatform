@@ -10,8 +10,7 @@ import org.junit.runners.JUnit4
 class GreetingTest {
 
     @Test
-    fun `should print hello android from android mpp`() {
-        assertEquals(Greeting().greeting(), "Hello, Android")
+    fun `should return android greeting`() {
+        assertEquals("Hello, Android", Greeting().greeting())
     }
-
 }
