@@ -3,8 +3,8 @@ package jh.app
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import jh.greeting.Greeting
+import jh.multiplatform.R
 import kotlinx.android.synthetic.main.greeting__greeting_activity.*
-import org.konan.multiplatform.R
 
 class GreetingActivity : AppCompatActivity() {
 
