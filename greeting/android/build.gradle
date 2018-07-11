@@ -2,8 +2,8 @@ apply plugin: 'kotlin-platform-jvm'
 
 // Specify a group and a version of the library to access it in Android Studio.
 // By default the project directory name is used as an artifact name thus the full dependency
-// description will be 'jh.greeting:android:1.0'
-group = 'jh.greeting'
+// description will be 'jh.multiweather:android:1.0'
+group = 'jh.multiweather'
 version = 1.0
 
 dependencies {
