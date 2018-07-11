@@ -16,9 +16,11 @@ class NavigationViewModelTest {
 
     private val anyBacksObservable = mock<Observable<Unit>>()
     private val anyScreensObservable = mock<Observable<Screen<String>>>()
+    private val anyScreen = mock<Screen<String>>()
     private val anyNavigationController = mock<NavigationController<String>> {
         on { backs } doReturn anyBacksObservable
         on { screens } doReturn anyScreensObservable
+        on { defaultScreen } doReturn anyScreen
     }
 
     private val viewModel = object : NavigationViewModel<String>(anyNavigationController) {}
@@ -38,5 +40,10 @@ class NavigationViewModelTest {
     @Test
     fun `should return screens observable from controller`() {
         assertEquals(anyScreensObservable, viewModel.screens)
+    }
+
+    @Test
+    fun `should return default screen from controller`() {
+        assertEquals(anyScreen, viewModel.defaultScreen)
     }
 }

@@ -10,7 +10,9 @@ class NavigationControllerTest {
 
     private val anyScreen = "anyScreen"
     private val otherScreen = "otherScreen"
-    private val controller = object : NavigationController<String>() {}
+    private val controller = object : NavigationController<String>() {
+        override val defaultScreen = Screen(anyScreen, false)
+    }
 
     @Test
     fun `screens observable should not send any events after construction`() {

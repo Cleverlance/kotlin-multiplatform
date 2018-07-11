@@ -13,6 +13,8 @@ abstract class NavigationController<S : Any> {
     val screens: Observable<Screen<S>> = screensRelay.hide()
     val backs: Observable<Unit> = backsRelay.hide()
 
+    abstract val defaultScreen: Screen<S>
+
     fun goTo(screen: S, addToBackStack: Boolean = true) {
         Timber.i("Go to: $screen")
 

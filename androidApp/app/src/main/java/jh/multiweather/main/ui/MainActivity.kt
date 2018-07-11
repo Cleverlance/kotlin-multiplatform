@@ -4,7 +4,6 @@ import android.os.Bundle
 import jh.multiplatform.R
 import jh.multiweather.arch.model.Screen
 import jh.multiweather.arch.ui.NavigationActivity
-import jh.multiweather.current.ui.CurrentWeatherFragment
 import jh.multiweather.main.model.ScreenData
 import jh.multiweather.main.presentation.MainActivityViewModel
 
@@ -23,7 +22,7 @@ class MainActivity : NavigationActivity<MainActivityViewModel, ScreenData>() {
         super.onCreate(savedInstanceState)
 
         savedInstanceState ?: let {
-            placeScreen(Screen(CurrentWeatherFragment::class, false))
+            placeScreen(viewModel.defaultScreen)
         }
     }
 

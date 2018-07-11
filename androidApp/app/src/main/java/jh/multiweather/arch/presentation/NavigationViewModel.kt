@@ -8,6 +8,7 @@ abstract class NavigationViewModel<S : Any>(
 ) {
     val screens = navigationController.screens
     val backs = navigationController.backs
+    val defaultScreen = navigationController.defaultScreen
 
     fun back() {
         Timber.d("Back")
