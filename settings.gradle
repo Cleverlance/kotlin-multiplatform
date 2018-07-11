@@ -1,3 +1,3 @@
-include ':greeting'
-include ':greeting:common'
-include ':greeting:android'
+include ':multiweather'
+include ':multiweather:common'
+include ':multiweather:android'
