@@ -1,0 +1,24 @@
+package jh.multiweather.arch.ui
+
+import android.support.annotation.CallSuper
+import com.jakewharton.rxrelay2.PublishRelay
+import jh.multiweather.arch.presentation.NavigationViewModel
+
+abstract class NavigationActivity<M : NavigationViewModel<S>, S : Any> : RxActivity<M>() {
+
+    private val backRelay = PublishRelay.create<Unit>()
+
+    @CallSuper
+    override fun bindUiToViewModel() {
+        backRelay.subscribe { viewModel.back() }
+    }
+
+    @CallSuper
+    override fun bindViewModelToUi() = listOf(
+            viewModel.backs.subscribe { super.onBackPressed() }
+    )
+
+    final override fun onBackPressed() {
+        backRelay.accept(Unit)
+    }
+}

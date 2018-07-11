@@ -1,15 +1,43 @@
 package jh.multiweather.main.ui
 
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.support.v7.app.AppCompatActivity
 import jh.multiplatform.R
+import jh.multiweather.arch.model.Screen
+import jh.multiweather.arch.ui.NavigationActivity
+import jh.multiweather.current.ui.CurrentWeatherFragment
+import jh.multiweather.main.model.ScreenData
+import jh.multiweather.main.presentation.MainActivityViewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : NavigationActivity<MainActivityViewModel, ScreenData>() {
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onCreate(savedInstanceState, persistentState)
+    override val layoutResId = R.layout.main__main_activity
 
-        setContentView(R.layout.main__main_activity)
+    override fun inject() {
+        MainApplication.getInjector(this).inject(this)
+    }
+
+    override fun bindViewModelToUi() = super.bindViewModelToUi() +
+            listOf(viewModel.screens.subscribe { placeScreen(it) })
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        savedInstanceState ?: let {
+            placeScreen(Screen(CurrentWeatherFragment::class, false))
+        }
+    }
+
+    private fun placeScreen(screen: Screen<ScreenData>) {
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.mainContainer, screen.data.java.newInstance())
+                .apply {
+                    if (screen.addToBackStack) {
+                        addToBackStack(null)
+                    } else {
+                        disallowAddToBackStack()
+                    }
+                }
+                .commit()
     }
 }
