@@ -26,7 +26,7 @@ class CurrentWeatherFragment : RxFragment<CurrentWeatherViewModel>() {
 
     override fun bindViewModelToUi() = with(viewModel) {
         listOf(
-                currentWeatherFormattedTexts.subscribe {
+                currentWeatherFormattedData.subscribe {
                     with(it.toNullable()) {
                         date.text = this?.timestamp
                         temperature.text = this?.temperatureCelsius

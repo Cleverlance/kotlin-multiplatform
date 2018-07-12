@@ -31,7 +31,7 @@ import kotlin.math.roundToInt
 class CurrentWeatherViewModel @Inject constructor() {
 
     // TODO real data
-    val currentWeatherFormattedTexts: Observable<Optional<CurrentWeatherFormatted>> = Observable.just(
+    val currentWeatherFormattedData: Observable<Optional<CurrentWeatherFormatted>> = Observable.just(
             CurrentWeatherFormatted(
                     "26. 3. 2018, 15:23",
                     "Brno",
