@@ -1,3 +1,7 @@
 <resources>
     <string name="common__app_name">MultiWeather</string>
+
+    <string name="current__wind">Wind</string>
+    <string name="current__sunrise">Sunrise</string>
+    <string name="current__sunset">Sunset</string>
 </resources>

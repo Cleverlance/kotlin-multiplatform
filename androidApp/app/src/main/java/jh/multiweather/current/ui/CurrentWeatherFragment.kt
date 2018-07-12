@@ -29,12 +29,15 @@ class CurrentWeatherFragment : RxFragment<CurrentWeatherViewModel>() {
                 currentWeatherFormattedData.subscribe {
                     with(it.toNullable()) {
                         date.text = this?.timestamp
+                        location.text = this?.location
                         temperature.text = this?.temperatureCelsius
-                        description.text = this?.descriptionShort
+                        pressure.text = this?.pressureMilliBar
+                        description.text = this?.descriptionLong
+                        additionalInfo.text = "${getString(R.string.current__wind)} ${this?.windSpeedKmph} ${this?.windDirectionDegrees}    ${getString(R.string.current__sunrise)} ${this?.sunriseTimestamp}    ${getString(R.string.current__sunset)} ${this?.sunsetTimestamp}"
                     }
                 },
                 currentWeatherFormattedVisibles.subscribe {
-                    listOf(date, temperature, description).forEach { view -> view.visibility = if (it) VISIBLE else GONE }
+                    listOf(date, location, temperature, pressure, description, additionalInfo).forEach { view -> view.visibility = if (it) VISIBLE else GONE }
                 },
                 isLoadingVisibles.subscribe {
                     progressBar.visibility = if (it) VISIBLE else GONE
