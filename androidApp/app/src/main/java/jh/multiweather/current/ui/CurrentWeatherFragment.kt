@@ -28,9 +28,9 @@ class CurrentWeatherFragment : RxFragment<CurrentWeatherViewModel>() {
         listOf(
                 currentWeatherFormattedTexts.subscribe {
                     with(it.toNullable()) {
-                        date.text = this?.date
+                        date.text = this?.timestamp
                         temperature.text = this?.temperatureCelsius
-                        description.text = this?.description
+                        description.text = this?.descriptionShort
                     }
                 },
                 currentWeatherFormattedVisibles.subscribe {

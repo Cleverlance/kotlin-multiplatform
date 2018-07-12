@@ -3,7 +3,15 @@ package jh.multiweather.current.model
 import java.time.ZonedDateTime
 
 data class CurrentWeather(
-        val date: ZonedDateTime,
+        val timestamp: ZonedDateTime,
+        val location: String,
         val temperatureCelsius: Double,
-        val description: String
+        val pressureMilliBar: Double,
+        val descriptionShort: String,
+        val descriptionLong: String,
+        val descriptionCode: Int,
+        val windSpeedKmph: Double,
+        val windDirectionDegrees: Double,
+        val sunriseTimestamp: ZonedDateTime,
+        val sunsetTimestamp: ZonedDateTime
 )

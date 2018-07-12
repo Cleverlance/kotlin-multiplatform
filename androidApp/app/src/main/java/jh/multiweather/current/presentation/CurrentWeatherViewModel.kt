@@ -24,7 +24,21 @@ import javax.inject.Singleton
 class CurrentWeatherViewModel @Inject constructor() {
 
     // TODO real data
-    val currentWeatherFormattedTexts: Observable<Optional<CurrentWeatherFormatted>> = Observable.just(CurrentWeatherFormatted("26. 3. 2018", "18 °C", "Light drizzle").toOptional())
+    val currentWeatherFormattedTexts: Observable<Optional<CurrentWeatherFormatted>> = Observable.just(
+            CurrentWeatherFormatted(
+                    "26. 3. 2018, 15:23",
+                    "Brno",
+                    "18 °C",
+                    "1024 mBar",
+                    "Clear",
+                    "clear sky",
+                    CurrentWeatherFormatted.DescriptionIcon.CLEAR,
+                    "6.5 kmph",
+                    "120 °",
+                    "26. 3. 2018, 7:21",
+                    "26. 3. 2018, 20:13"
+            ).toOptional()
+    )
     val currentWeatherFormattedVisibles: Observable<Boolean> = Observable.just(true)
 
     val isLoadingVisibles: Observable<Boolean> = Observable.just(false)
@@ -70,14 +84,14 @@ data class CurrentWeatherRemote(
     @Serializable
     data class WeatherDescription(
             @SerialName("id") val code: Int,
-            @SerialName("main") val descriptionShort: String,
-            @SerialName("description") val descriptionLong: String
+            @SerialName("main") val short: String,
+            @SerialName("description") val long: String
     )
 
     @Serializable
     data class MainParameters(
             @SerialName("temp") val temperatureCelsius: Double,
-            @SerialName("pressure") val pressureMBar: Double
+            @SerialName("pressure") val pressureMilliBar: Double
     )
 
     @Serializable
