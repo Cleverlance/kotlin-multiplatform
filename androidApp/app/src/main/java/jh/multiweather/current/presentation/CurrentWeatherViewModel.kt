@@ -5,8 +5,12 @@ import com.gojuno.koptional.Optional
 import com.gojuno.koptional.toOptional
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
+import io.reactivex.schedulers.Schedulers.computation
 import io.reactivex.schedulers.Schedulers.io
 import jh.multiweather.current.model.CurrentWeatherFormatted
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JSON
 import okhttp3.ResponseBody
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -39,13 +43,54 @@ class CurrentWeatherViewModel @Inject constructor() {
                 .create(CurrentWeatherService::class.java)
                 .currentWeather("060babdcb0097cb661c39c2c9e6c4a09", "Brno", "metric")
                 .subscribeOn(io())
+                .observeOn(computation())
+                .map { it.string() }
+                .map {
+                    JSON.nonstrict.parse<CurrentWeatherRemote>(it)
+                }
                 .observeOn(mainThread())
                 .subscribe({
-                    Timber.d("Success: ${it.string()}")
+                    Timber.d("Success: $it")
                 }, {
                     Timber.e("Error: $it")
                 })
     }
+}
+
+// TODO move
+@Serializable
+data class CurrentWeatherRemote(
+        @SerialName("dt") val timestamp: Long,
+        @SerialName("name") val location: String,
+        @SerialName("main") val mainParameters: MainParameters,
+        @SerialName("weather") val weatherDescriptions: List<WeatherDescription>,
+        @SerialName("wind") val wind: Wind,
+        @SerialName("sys") val sun: Sun
+) {
+    @Serializable
+    data class WeatherDescription(
+            @SerialName("id") val code: Int,
+            @SerialName("main") val descriptionShort: String,
+            @SerialName("description") val descriptionLong: String
+    )
+
+    @Serializable
+    data class MainParameters(
+            @SerialName("temp") val temperatureCelsius: Double,
+            @SerialName("pressure") val pressureMBar: Double
+    )
+
+    @Serializable
+    data class Wind(
+            @SerialName("speed") val speedKmph: Double,
+            @SerialName("deg") val directionDegrees: Double
+    )
+
+    @Serializable
+    data class Sun(
+            @SerialName("sunrise") val sunriseTimestamp: Long,
+            @SerialName("sunset") val sunsetTimestamp: Long
+    )
 }
 
 // TODO move
