@@ -2,6 +2,7 @@ package jh.multiweather.main.ui
 
 import android.app.Application
 import android.content.Context
+import com.jakewharton.threetenabp.AndroidThreeTen
 import jh.multiplatform.BuildConfig
 import jh.multiweather.arch.infrastructure.TagPrefixDebugTree
 import jh.multiweather.main.di.DaggerMainComponent
@@ -23,6 +24,7 @@ class MainApplication : Application() {
 
         initDi()
         initTimber()
+        initThreeTenAbp()
 
         Timber.i("Application created")
     }
@@ -39,5 +41,9 @@ class MainApplication : Application() {
                 .build()
 
         component.inject(this)
+    }
+
+    private fun initThreeTenAbp() {
+        AndroidThreeTen.init(this);
     }
 }

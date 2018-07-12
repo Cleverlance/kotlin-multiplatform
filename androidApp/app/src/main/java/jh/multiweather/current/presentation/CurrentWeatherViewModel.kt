@@ -7,11 +7,15 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.schedulers.Schedulers.computation
 import io.reactivex.schedulers.Schedulers.io
+import jh.multiweather.current.model.CurrentWeather
 import jh.multiweather.current.model.CurrentWeatherFormatted
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JSON
 import okhttp3.ResponseBody
+import org.threeten.bp.Instant
+import org.threeten.bp.ZoneId
+import org.threeten.bp.ZonedDateTime
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.http.GET
@@ -62,6 +66,21 @@ class CurrentWeatherViewModel @Inject constructor() {
                 .map {
                     JSON.nonstrict.parse<CurrentWeatherRemote>(it)
                 }
+                .map {
+                    CurrentWeather(
+                            it.timestamp.toZonedDateTime(),
+                            it.location,
+                            it.mainParameters.temperatureCelsius,
+                            it.mainParameters.pressureMilliBar,
+                            it.weatherDescriptions.first().short,
+                            it.weatherDescriptions.first().long,
+                            it.weatherDescriptions.first().code,
+                            it.wind.speedKmph,
+                            it.wind.directionDegrees,
+                            it.sun.sunriseTimestamp.toZonedDateTime(),
+                            it.sun.sunsetTimestamp.toZonedDateTime()
+                    )
+                }
                 .observeOn(mainThread())
                 .subscribe({
                     Timber.d("Success: $it")
@@ -69,6 +88,8 @@ class CurrentWeatherViewModel @Inject constructor() {
                     Timber.e("Error: $it")
                 })
     }
+
+    private fun Long.toZonedDateTime() = ZonedDateTime.ofInstant(Instant.ofEpochSecond(this), ZoneId.systemDefault())
 }
 
 // TODO move

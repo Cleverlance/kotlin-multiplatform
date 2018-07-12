@@ -1,6 +1,6 @@
 package jh.multiweather.current.model
 
-import java.time.ZonedDateTime
+import org.threeten.bp.ZonedDateTime
 
 data class CurrentWeather(
         val timestamp: ZonedDateTime,
