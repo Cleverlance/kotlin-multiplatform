@@ -1,5 +1,7 @@
 package jh.multiweather.current.ui
 
+import android.os.Bundle
+import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import jh.multiplatform.R
@@ -14,6 +16,12 @@ class CurrentWeatherFragment : RxFragment<CurrentWeatherViewModel>() {
 
     override fun inject() {
         MainApplication.getInjector(context).inject(this)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.refresh()
     }
 
     override fun bindViewModelToUi() = with(viewModel) {
