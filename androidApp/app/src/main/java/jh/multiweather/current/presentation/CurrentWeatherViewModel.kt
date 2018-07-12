@@ -3,6 +3,7 @@ package jh.multiweather.current.presentation
 import com.gojuno.koptional.None
 import com.gojuno.koptional.Optional
 import com.gojuno.koptional.toOptional
+import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.schedulers.Schedulers.computation
@@ -30,31 +31,28 @@ import kotlin.math.roundToInt
 @Singleton
 class CurrentWeatherViewModel @Inject constructor() {
 
-    // TODO real data
-    val currentWeatherFormattedData: Observable<Optional<CurrentWeatherFormatted>> = Observable.just(
-            CurrentWeatherFormatted(
-                    "26. 3. 2018, 15:23",
-                    "Brno",
-                    "18 °C",
-                    "1024 mBar",
-                    "Clear",
-                    "clear sky",
-                    CurrentWeatherFormatted.DescriptionIcon.CLEAR,
-                    "6.5 kmph",
-                    "120 °",
-                    "26. 3. 2018, 7:21",
-                    "26. 3. 2018, 20:13"
-            ).toOptional()
-    )
-    val currentWeatherFormattedVisibles: Observable<Boolean> = Observable.just(true)
+    private val currentWeatherFormattedDataRelay = BehaviorRelay.createDefault<Optional<CurrentWeatherFormatted>>(None)
+    private val currentWeatherFormattedVisiblesRelay = BehaviorRelay.createDefault(false)
+    private val isLoadingVisiblesRelay = BehaviorRelay.createDefault(true)
+    private val errorMessageTextsRelay = BehaviorRelay.createDefault<Optional<String>>(None)
+    private val errorMessageVisiblesRelay = BehaviorRelay.createDefault(false)
 
-    val isLoadingVisibles: Observable<Boolean> = Observable.just(false)
+    val currentWeatherFormattedData: Observable<Optional<CurrentWeatherFormatted>> = currentWeatherFormattedDataRelay.hide()
+    val currentWeatherFormattedVisibles: Observable<Boolean> = currentWeatherFormattedVisiblesRelay.hide()
 
-    val errorMessageTexts: Observable<Optional<String>> = Observable.just(None)
-    val errorMessageVisibles: Observable<Boolean> = Observable.just(false)
+    val isLoadingVisibles: Observable<Boolean> = isLoadingVisiblesRelay.hide()
+
+    val errorMessageTexts: Observable<Optional<String>> = errorMessageTextsRelay.hide()
+    val errorMessageVisibles: Observable<Boolean> = errorMessageVisiblesRelay.hide()
 
     fun refresh() {
         Timber.d("Refresh")
+
+        currentWeatherFormattedDataRelay.accept(None)
+        currentWeatherFormattedVisiblesRelay.accept(false)
+        isLoadingVisiblesRelay.accept(true)
+        errorMessageTextsRelay.accept(None)
+        errorMessageVisiblesRelay.accept(false)
 
         // TODO move
         Retrofit.Builder()
@@ -102,8 +100,20 @@ class CurrentWeatherViewModel @Inject constructor() {
                 .observeOn(mainThread())
                 .subscribe({
                     Timber.d("Success: $it")
+
+                    currentWeatherFormattedDataRelay.accept(it.toOptional())
+                    currentWeatherFormattedVisiblesRelay.accept(true)
+                    isLoadingVisiblesRelay.accept(false)
+                    errorMessageTextsRelay.accept(None)
+                    errorMessageVisiblesRelay.accept(false)
                 }, {
                     Timber.e("Error: $it")
+
+                    currentWeatherFormattedDataRelay.accept(None)
+                    currentWeatherFormattedVisiblesRelay.accept(false)
+                    isLoadingVisiblesRelay.accept(true)
+                    errorMessageTextsRelay.accept(it.toString().toOptional())
+                    errorMessageVisiblesRelay.accept(true)
                 })
     }
 
