@@ -16,10 +16,14 @@ data class CurrentWeatherFormatted(
     enum class DescriptionIcon {
         CLEAR,
         FOG,
-        CLOUDS,
+        FEW_CLOUDS,
+        SCATTERED_CLOUDS,
+        OVERCAST_CLOUDS,
         DRIZZLE,
-        RAIN,
+        LIGHT_RAIN,
+        HEAVY_RAIN,
         SNOW,
-        THUNDERSTORM
+        THUNDERSTORM,
+        UNKNOWN
     }
 }

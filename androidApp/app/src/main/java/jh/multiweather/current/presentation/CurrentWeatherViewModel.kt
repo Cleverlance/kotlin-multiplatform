@@ -9,6 +9,7 @@ import io.reactivex.schedulers.Schedulers.computation
 import io.reactivex.schedulers.Schedulers.io
 import jh.multiweather.current.model.CurrentWeather
 import jh.multiweather.current.model.CurrentWeatherFormatted
+import jh.multiweather.current.model.CurrentWeatherFormatted.DescriptionIcon.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JSON
@@ -16,6 +17,7 @@ import okhttp3.ResponseBody
 import org.threeten.bp.Instant
 import org.threeten.bp.ZoneId
 import org.threeten.bp.ZonedDateTime
+import org.threeten.bp.format.DateTimeFormatter
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.http.GET
@@ -23,6 +25,7 @@ import retrofit2.http.Query
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.math.roundToInt
 
 @Singleton
 class CurrentWeatherViewModel @Inject constructor() {
@@ -81,6 +84,21 @@ class CurrentWeatherViewModel @Inject constructor() {
                             it.sun.sunsetTimestamp.toZonedDateTime()
                     )
                 }
+                .map {
+                    CurrentWeatherFormatted(
+                            it.timestamp.format(DateTimeFormatter.ofPattern("dd. LLLL H:mm")),
+                            it.location,
+                            "${it.temperatureCelsius.roundToInt()} °C",
+                            "${it.pressureMilliBar.roundToInt()} mBar",
+                            it.descriptionShort,
+                            it.descriptionLong,
+                            it.descriptionCode.toDescriptionIcon(),
+                            "${it.windSpeedKmph} km/h",
+                            "${it.windDirectionDegrees.roundToInt()}°",
+                            it.sunriseTimestamp.format(DateTimeFormatter.ofPattern("H:mm")),
+                            it.sunsetTimestamp.format(DateTimeFormatter.ofPattern("H:mm"))
+                    )
+                }
                 .observeOn(mainThread())
                 .subscribe({
                     Timber.d("Success: $it")
@@ -90,6 +108,20 @@ class CurrentWeatherViewModel @Inject constructor() {
     }
 
     private fun Long.toZonedDateTime() = ZonedDateTime.ofInstant(Instant.ofEpochSecond(this), ZoneId.systemDefault())
+
+    private fun Int.toDescriptionIcon() = when (this) {
+        in 200..299 -> THUNDERSTORM
+        in 300..399 -> DRIZZLE
+        in 500..504 -> LIGHT_RAIN
+        in 511..599 -> HEAVY_RAIN
+        in 600..699 -> SNOW
+        in 700..799 -> FOG
+        800 -> CLEAR
+        801 -> FEW_CLOUDS
+        802 -> SCATTERED_CLOUDS
+        in 803..804 -> OVERCAST_CLOUDS
+        else -> UNKNOWN
+    }
 }
 
 // TODO move
