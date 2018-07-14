@@ -12,8 +12,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CurrentWeatherParser @Inject constructor() {
-    fun parse(data: String): CurrentWeather = JSON.nonstrict.parse<CurrentWeatherRemote>(data)
+actual class CurrentWeatherParser @Inject actual constructor() {
+    actual fun parse(data: String): CurrentWeather = JSON.nonstrict.parse<CurrentWeatherRemote>(data)
             .let {
                 CurrentWeather(
                         it.timestamp?.toZonedDateTime(),
