@@ -5,8 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:padding="@dimen/content_padding"
     >
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="@string/common__app_name"
+            />
+
+    </android.support.design.widget.AppBarLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -14,7 +28,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBar"
         tools:visibility="gone"
         />
 
@@ -24,7 +38,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBar"
         tools:text="Error message!"
         tools:visibility="gone"
         />
@@ -33,9 +47,11 @@
         android:id="@+id/icon"
         android:layout_width="@dimen/big_icon"
         android:layout_height="@dimen/big_icon"
+        android:layout_marginLeft="@dimen/content_padding"
+        android:layout_marginTop="@dimen/content_padding"
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBar"
         tools:ignore="ContentDescription"
         tools:src="@tools:sample/avatars"
         />
@@ -45,9 +61,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/content_padding"
+        android:layout_marginTop="@dimen/content_padding"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         app:layout_constraintStart_toEndOf="@+id/icon"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBar"
         tools:text="July 11th 2018 16:32"
         />
 
@@ -55,9 +72,11 @@
         android:id="@+id/location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/content_padding"
+        android:layout_marginTop="@dimen/content_padding"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBar"
         tools:text="Brno"
         />
 
@@ -77,6 +96,7 @@
         android:id="@+id/pressure"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/content_padding"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
         android:textColor="@color/colorAccent"
         app:layout_constraintBaseline_toBaselineOf="@+id/temperature"
@@ -88,6 +108,8 @@
         android:id="@+id/description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/content_padding"
+        android:layout_marginRight="@dimen/content_padding"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -99,6 +121,7 @@
         android:id="@+id/additionalInfo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/content_padding"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/textSecondary"
         app:layout_constraintEnd_toEndOf="parent"
