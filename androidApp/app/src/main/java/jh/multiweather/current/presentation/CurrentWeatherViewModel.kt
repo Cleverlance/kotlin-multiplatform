@@ -14,7 +14,6 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.roundToInt
-import kotlinx.serialization.Optional as NotRequired
 
 @Singleton
 class CurrentWeatherViewModel @Inject constructor(
