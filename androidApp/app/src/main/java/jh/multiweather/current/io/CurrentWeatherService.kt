@@ -8,6 +8,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 import timber.log.Timber
+import java.util.concurrent.TimeUnit.MILLISECONDS
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -45,7 +46,8 @@ class CurrentWeatherService @Inject constructor() {
         Timber.d("Load: $apiKey, $city, $units")
 
         return client.currentWeather(apiKey, city, units)
-                .map { it.string() }
                 .subscribeOn(io())
+                .map { it.string() }
+                .delay(1000, MILLISECONDS) // for demonstration purposes only
     }
 }
