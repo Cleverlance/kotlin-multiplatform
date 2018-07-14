@@ -13,6 +13,8 @@ dependencies {
     // Specify dependency on a common project for Kotlin multiplatform build.
     expectedBy project(':multiweather:common')
 
+    implementation 'com.google.dagger:dagger:2.16'
+
     implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
 
     testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
