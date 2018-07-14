@@ -27,6 +27,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.roundToInt
+import kotlinx.serialization.Optional as NotRequired
 
 @Singleton
 class CurrentWeatherViewModel @Inject constructor() {
@@ -69,7 +70,7 @@ class CurrentWeatherViewModel @Inject constructor() {
                 }
                 .map {
                     CurrentWeather(
-                            it.timestamp.toZonedDateTime(),
+                            it.timestamp?.toZonedDateTime(),
                             it.location,
                             it.mainParameters.temperatureCelsius,
                             it.mainParameters.pressureMilliBar,
@@ -78,23 +79,23 @@ class CurrentWeatherViewModel @Inject constructor() {
                             it.weatherDescriptions.first().code,
                             it.wind.speedKmph,
                             it.wind.directionDegrees,
-                            it.sun.sunriseTimestamp.toZonedDateTime(),
-                            it.sun.sunsetTimestamp.toZonedDateTime()
+                            it.sun.sunriseTimestamp?.toZonedDateTime(),
+                            it.sun.sunsetTimestamp?.toZonedDateTime()
                     )
                 }
                 .map {
                     CurrentWeatherFormatted(
-                            it.timestamp.format(DateTimeFormatter.ofPattern("dd. LLLL H:mm")),
+                            it.timestamp?.format(DateTimeFormatter.ofPattern("dd. LLLL H:mm")),
                             it.location,
-                            "${it.temperatureCelsius.roundToInt()} °C",
-                            "${it.pressureMilliBar.roundToInt()} mBar",
-                            it.descriptionShort.capitalize(),
-                            it.descriptionLong.capitalize(),
-                            it.descriptionCode.toDescriptionIcon(),
-                            "${it.windSpeedKmph} km/h",
-                            "${it.windDirectionDegrees.roundToInt()}°",
-                            it.sunriseTimestamp.format(DateTimeFormatter.ofPattern("H:mm")),
-                            it.sunsetTimestamp.format(DateTimeFormatter.ofPattern("H:mm"))
+                            it.temperatureCelsius?.let { "${it.roundToInt()} °C" },
+                            it.pressureMilliBar?.let { "${it.roundToInt()} mBar" },
+                            it.descriptionShort?.capitalize(),
+                            it.descriptionLong?.capitalize(),
+                            it.descriptionCode?.toDescriptionIcon() ?: UNKNOWN,
+                            it.windSpeedKmph?.let { "$it km/h" },
+                            it.windDirectionDegrees?.let { "${it.roundToInt()}°" },
+                            it.sunriseTimestamp?.format(DateTimeFormatter.ofPattern("H:mm")),
+                            it.sunsetTimestamp?.format(DateTimeFormatter.ofPattern("H:mm"))
                     )
                 }
                 .observeOn(mainThread())
@@ -137,8 +138,8 @@ class CurrentWeatherViewModel @Inject constructor() {
 // TODO move
 @Serializable
 data class CurrentWeatherRemote(
-        @SerialName("dt") val timestamp: Long,
-        @SerialName("name") val location: String,
+        @NotRequired @SerialName("dt") val timestamp: Long? = null,
+        @NotRequired @SerialName("name") val location: String? = null,
         @SerialName("main") val mainParameters: MainParameters,
         @SerialName("weather") val weatherDescriptions: List<WeatherDescription>,
         @SerialName("wind") val wind: Wind,
@@ -146,27 +147,27 @@ data class CurrentWeatherRemote(
 ) {
     @Serializable
     data class WeatherDescription(
-            @SerialName("id") val code: Int,
-            @SerialName("main") val short: String,
-            @SerialName("description") val long: String
+            @NotRequired @SerialName("id") val code: Int? = null,
+            @NotRequired @SerialName("main") val short: String? = null,
+            @NotRequired @SerialName("description") val long: String? = null
     )
 
     @Serializable
     data class MainParameters(
-            @SerialName("temp") val temperatureCelsius: Double,
-            @SerialName("pressure") val pressureMilliBar: Double
+            @NotRequired @SerialName("temp") val temperatureCelsius: Double? = null,
+            @NotRequired @SerialName("pressure") val pressureMilliBar: Double? = null
     )
 
     @Serializable
     data class Wind(
-            @SerialName("speed") val speedKmph: Double,
-            @SerialName("deg") val directionDegrees: Double
+            @NotRequired @SerialName("speed") val speedKmph: Double? = null,
+            @NotRequired @SerialName("deg") val directionDegrees: Double? = null
     )
 
     @Serializable
     data class Sun(
-            @SerialName("sunrise") val sunriseTimestamp: Long,
-            @SerialName("sunset") val sunsetTimestamp: Long
+            @NotRequired @SerialName("sunrise") val sunriseTimestamp: Long? = null,
+            @NotRequired @SerialName("sunset") val sunsetTimestamp: Long? = null
     )
 }
 
