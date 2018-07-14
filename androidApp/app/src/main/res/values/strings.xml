@@ -4,4 +4,5 @@
     <string name="current__wind">Wind</string>
     <string name="current__sunrise">Sunrise</string>
     <string name="current__sunset">Sunset</string>
+    <string name="current__refresh">Refresh</string>
 </resources>

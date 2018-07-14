@@ -1,6 +1,7 @@
 package jh.multiweather.current.ui
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -36,6 +37,15 @@ class CurrentWeatherFragment : RxFragment<CurrentWeatherViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        toolbar.menu.add(R.string.current__refresh).apply {
+            setIcon(R.drawable.ic_refresh)
+            setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            setOnMenuItemClickListener {
+                viewModel.refresh()
+                true
+            }
+        }
 
         viewModel.refresh()
     }
