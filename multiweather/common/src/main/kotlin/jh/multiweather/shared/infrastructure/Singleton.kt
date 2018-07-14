@@ -1,3 +1,3 @@
 package jh.multiweather.shared.infrastructure
 
-expect annotation class Singleton
+expect annotation class Singleton()
