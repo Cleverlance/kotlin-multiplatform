@@ -112,7 +112,7 @@ class CurrentWeatherViewModel @Inject constructor() {
 
                     currentWeatherFormattedDataRelay.accept(None)
                     currentWeatherFormattedVisiblesRelay.accept(false)
-                    isLoadingVisiblesRelay.accept(true)
+                    isLoadingVisiblesRelay.accept(false)
                     errorMessageTextsRelay.accept(it.toString().toOptional())
                     errorMessageVisiblesRelay.accept(true)
                 })
