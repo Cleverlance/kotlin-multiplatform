@@ -1,29 +1,23 @@
 package jh.multiweather.current.io
 
 import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers.io
+import io.reactivex.schedulers.Schedulers
+import jh.multiweather.current.io.CurrentWeatherServiceParams.API_KEY_KEY
+import jh.multiweather.current.io.CurrentWeatherServiceParams.BASE_URL
+import jh.multiweather.current.io.CurrentWeatherServiceParams.CITY_KEY
+import jh.multiweather.current.io.CurrentWeatherServiceParams.CURRENT_WEATHER_PATH
+import jh.multiweather.current.io.CurrentWeatherServiceParams.UNITS_KEY
 import okhttp3.ResponseBody
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
-import timber.log.Timber
-import java.util.concurrent.TimeUnit.MILLISECONDS
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class CurrentWeatherService @Inject constructor() {
-
-    companion object {
-        private const val BASE_URL = "https://api.openweathermap.org/data/2.5/"
-        private const val CURRENT_WEATHER_PATH = "weather"
-        private const val API_KEY_KEY = "APPID"
-        private const val CITY_KEY = "q"
-        private const val UNITS_KEY = "units"
-
-        const val METRIC_UNITS = "metric"
-    }
+actual class CurrentWeatherService @Inject actual constructor() {
 
     private val client by lazy {
         Retrofit.Builder()
@@ -42,12 +36,8 @@ class CurrentWeatherService @Inject constructor() {
         ): Single<ResponseBody>
     }
 
-    fun load(apiKey: String, city: String, units: String): Single<String> {
-        Timber.d("Load: $apiKey, $city, $units")
-
-        return client.currentWeather(apiKey, city, units)
-                .subscribeOn(io())
-                .map { it.string() }
-                .delay(1000, MILLISECONDS) // for demonstration purposes only
-    }
+    actual fun load(apiKey: String, city: String, units: String): Single<String> = client.currentWeather(apiKey, city, units)
+            .subscribeOn(Schedulers.io())
+            .map { it.string() }
+            .delay(1000, TimeUnit.MILLISECONDS) // for demonstration purposes only
 }
