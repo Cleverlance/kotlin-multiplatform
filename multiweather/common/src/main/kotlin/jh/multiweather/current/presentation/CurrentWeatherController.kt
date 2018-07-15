@@ -16,6 +16,6 @@ class CurrentWeatherController @Inject constructor(
     }
 
     fun load(city: String): Single<CurrentWeather> = currentWeatherService.load(API_KEY, city, CurrentWeatherServiceParams.METRIC_UNITS)
-            .observeOnComputation()
+            .observeOn(Schedulers.computation())
             .map { currentWeatherParser.parse(it) }
 }
