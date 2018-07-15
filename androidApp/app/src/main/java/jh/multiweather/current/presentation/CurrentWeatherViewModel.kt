@@ -3,9 +3,9 @@ package jh.multiweather.current.presentation
 import com.gojuno.koptional.None
 import com.gojuno.koptional.Optional
 import com.gojuno.koptional.toOptional
-import com.jakewharton.rxrelay2.BehaviorRelay
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
+import io.reactivex.subjects.BehaviorSubject
 import jh.multiweather.current.model.CurrentWeatherFormatted
 import jh.multiweather.current.model.CurrentWeatherFormatted.DescriptionIcon.*
 import org.threeten.bp.format.DateTimeFormatter
@@ -19,28 +19,28 @@ class CurrentWeatherViewModel @Inject constructor(
         private val currentWeatherController: CurrentWeatherController
 ) {
 
-    private val currentWeatherFormattedDataRelay = BehaviorRelay.createDefault<Optional<CurrentWeatherFormatted>>(None)
-    private val currentWeatherFormattedVisiblesRelay = BehaviorRelay.createDefault(false)
-    private val isLoadingVisiblesRelay = BehaviorRelay.createDefault(true)
-    private val errorMessageTextsRelay = BehaviorRelay.createDefault<Optional<String>>(None)
-    private val errorMessageVisiblesRelay = BehaviorRelay.createDefault(false)
+    private val currentWeatherFormattedDataSubject = BehaviorSubject.createDefault<Optional<CurrentWeatherFormatted>>(None)
+    private val currentWeatherFormattedVisiblesSubject = BehaviorSubject.createDefault(false)
+    private val isLoadingVisiblesSubject = BehaviorSubject.createDefault(true)
+    private val errorMessageTextsSubject = BehaviorSubject.createDefault<Optional<String>>(None)
+    private val errorMessageVisiblesSubject = BehaviorSubject.createDefault(false)
 
-    val currentWeatherFormattedData: Observable<Optional<CurrentWeatherFormatted>> = currentWeatherFormattedDataRelay.hide()
-    val currentWeatherFormattedVisibles: Observable<Boolean> = currentWeatherFormattedVisiblesRelay.hide()
+    val currentWeatherFormattedData: Observable<Optional<CurrentWeatherFormatted>> = currentWeatherFormattedDataSubject.hide()
+    val currentWeatherFormattedVisibles: Observable<Boolean> = currentWeatherFormattedVisiblesSubject.hide()
 
-    val isLoadingVisibles: Observable<Boolean> = isLoadingVisiblesRelay.hide()
+    val isLoadingVisibles: Observable<Boolean> = isLoadingVisiblesSubject.hide()
 
-    val errorMessageTexts: Observable<Optional<String>> = errorMessageTextsRelay.hide()
-    val errorMessageVisibles: Observable<Boolean> = errorMessageVisiblesRelay.hide()
+    val errorMessageTexts: Observable<Optional<String>> = errorMessageTextsSubject.hide()
+    val errorMessageVisibles: Observable<Boolean> = errorMessageVisiblesSubject.hide()
 
     fun refresh() {
         Timber.d("Refresh")
 
-        currentWeatherFormattedDataRelay.accept(None)
-        currentWeatherFormattedVisiblesRelay.accept(false)
-        isLoadingVisiblesRelay.accept(true)
-        errorMessageTextsRelay.accept(None)
-        errorMessageVisiblesRelay.accept(false)
+        currentWeatherFormattedDataSubject.onNext(None)
+        currentWeatherFormattedVisiblesSubject.onNext(false)
+        isLoadingVisiblesSubject.onNext(true)
+        errorMessageTextsSubject.onNext(None)
+        errorMessageVisiblesSubject.onNext(false)
 
         currentWeatherController.load("Brno")
                 .map {
@@ -62,19 +62,19 @@ class CurrentWeatherViewModel @Inject constructor(
                 .subscribe({
                     Timber.d("Success: $it")
 
-                    currentWeatherFormattedDataRelay.accept(it.toOptional())
-                    currentWeatherFormattedVisiblesRelay.accept(true)
-                    isLoadingVisiblesRelay.accept(false)
-                    errorMessageTextsRelay.accept(None)
-                    errorMessageVisiblesRelay.accept(false)
+                    currentWeatherFormattedDataSubject.onNext(it.toOptional())
+                    currentWeatherFormattedVisiblesSubject.onNext(true)
+                    isLoadingVisiblesSubject.onNext(false)
+                    errorMessageTextsSubject.onNext(None)
+                    errorMessageVisiblesSubject.onNext(false)
                 }, {
                     Timber.e("Error: $it")
 
-                    currentWeatherFormattedDataRelay.accept(None)
-                    currentWeatherFormattedVisiblesRelay.accept(false)
-                    isLoadingVisiblesRelay.accept(false)
-                    errorMessageTextsRelay.accept(it.toString().toOptional())
-                    errorMessageVisiblesRelay.accept(true)
+                    currentWeatherFormattedDataSubject.onNext(None)
+                    currentWeatherFormattedVisiblesSubject.onNext(false)
+                    isLoadingVisiblesSubject.onNext(false)
+                    errorMessageTextsSubject.onNext(it.toString().toOptional())
+                    errorMessageVisiblesSubject.onNext(true)
                 })
     }
 
