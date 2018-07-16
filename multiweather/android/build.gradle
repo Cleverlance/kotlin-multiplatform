@@ -15,6 +15,7 @@ allprojects {
     }
 }
 
+// TODO how to apply 'kotlin-platform-android' plugin?
 apply plugin: 'kotlin-platform-jvm'
 apply plugin: 'kotlinx-serialization'
 

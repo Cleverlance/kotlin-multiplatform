@@ -5,6 +5,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import jh.multiplatform.R
 import jh.multiweather.arch.ui.RxFragment
 import jh.multiweather.current.model.CurrentWeatherFormatted.DescriptionIcon.*
@@ -12,6 +13,7 @@ import jh.multiweather.current.presentation.CurrentWeatherViewModel
 import jh.multiweather.main.ui.MainApplication
 import kotlinx.android.synthetic.main.current__current_weather_fragment.*
 
+// TODO add multiplatform logs
 class CurrentWeatherFragment : RxFragment<CurrentWeatherViewModel>() {
 
     companion object {
@@ -52,29 +54,40 @@ class CurrentWeatherFragment : RxFragment<CurrentWeatherViewModel>() {
 
     override fun bindViewModelToUi() = with(viewModel) {
         listOf(
-                currentWeatherFormattedData.subscribe {
-                    with(it.toNullable()) {
-                        date.text = this?.timestamp
-                        location.text = this?.location
-                        temperature.text = this?.temperatureCelsius
-                        pressure.text = this?.pressureMilliBar
-                        description.text = this?.descriptionLong
-                        icon.setImageResource(descriptionIconMap.getOrDefault(this?.descriptionIcon ?: UNKNOWN, R.drawable.ic_unknown))
-                        additionalInfo.text = "${getString(R.string.current__wind)} ${this?.windSpeedKmph} ${this?.windDirectionDegrees}  •  ${getString(R.string.current__sunrise)} ${this?.sunriseTimestamp}  •  ${getString(R.string.current__sunset)} ${this?.sunsetTimestamp}"
-                    }
-                },
-                currentWeatherFormattedVisibles.subscribe {
-                    listOf(date, location, temperature, pressure, description, icon, additionalInfo).forEach { view -> view.visibility = if (it) VISIBLE else GONE }
-                },
-                isLoadingVisibles.subscribe {
-                    progressBar.visibility = if (it) VISIBLE else GONE
-                },
-                errorMessageTexts.subscribe {
-                    errorMessage.text = it.toNullable()
-                },
-                errorMessageVisibles.subscribe {
-                    errorMessage.visibility = if (it) VISIBLE else GONE
-                }
+                currentWeatherFormattedData
+                        .observeOn(mainThread())
+                        .subscribe {
+                            with(it.toNullable()) {
+                                date.text = this?.timestamp
+                                location.text = this?.location
+                                temperature.text = this?.temperatureCelsius
+                                pressure.text = this?.pressureMilliBar
+                                description.text = this?.descriptionLong
+                                icon.setImageResource(descriptionIconMap.getOrDefault(this?.descriptionIcon
+                                        ?: UNKNOWN, R.drawable.ic_unknown))
+                                additionalInfo.text = "${getString(R.string.current__wind)} ${this?.windSpeedKmph} ${this?.windDirectionDegrees}  •  ${getString(R.string.current__sunrise)} ${this?.sunriseTimestamp}  •  ${getString(R.string.current__sunset)} ${this?.sunsetTimestamp}"
+                            }
+                        },
+                currentWeatherFormattedVisibles
+                        .observeOn(mainThread())
+                        .subscribe {
+                            listOf(date, location, temperature, pressure, description, icon, additionalInfo).forEach { view -> view.visibility = if (it) VISIBLE else GONE }
+                        },
+                isLoadingVisibles
+                        .observeOn(mainThread())
+                        .subscribe {
+                            progressBar.visibility = if (it) VISIBLE else GONE
+                        },
+                errorMessageTexts
+                        .observeOn(mainThread())
+                        .subscribe {
+                            errorMessage.text = it.toNullable()
+                        },
+                errorMessageVisibles
+                        .observeOn(mainThread())
+                        .subscribe {
+                            errorMessage.visibility = if (it) VISIBLE else GONE
+                        }
         )
     }
 }

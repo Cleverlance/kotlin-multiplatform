@@ -1,18 +1,10 @@
 package jh.multiweather.current.presentation
 
-import com.gojuno.koptional.None
-import com.gojuno.koptional.Optional
-import com.gojuno.koptional.toOptional
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
-import io.reactivex.subjects.BehaviorSubject
 import jh.multiweather.current.model.CurrentWeatherFormatted
 import jh.multiweather.current.model.CurrentWeatherFormatted.DescriptionIcon.*
+import jh.multiweather.current.model.dateTimeFormatterOfPattern
 import jh.multiweather.current.platform.CurrentWeatherController
-import org.threeten.bp.format.DateTimeFormatter
-import timber.log.Timber
-import javax.inject.Inject
-import javax.inject.Singleton
+import jh.multiweather.shared.infrastructure.*
 import kotlin.math.roundToInt
 
 @Singleton
@@ -20,11 +12,11 @@ class CurrentWeatherViewModel @Inject constructor(
         private val currentWeatherController: CurrentWeatherController
 ) {
 
-    private val currentWeatherFormattedDataSubject = BehaviorSubject.createDefault<Optional<CurrentWeatherFormatted>>(None)
-    private val currentWeatherFormattedVisiblesSubject = BehaviorSubject.createDefault(false)
-    private val isLoadingVisiblesSubject = BehaviorSubject.createDefault(true)
-    private val errorMessageTextsSubject = BehaviorSubject.createDefault<Optional<String>>(None)
-    private val errorMessageVisiblesSubject = BehaviorSubject.createDefault(false)
+    private val currentWeatherFormattedDataSubject = createBehaviorSubject<Optional<CurrentWeatherFormatted>>(None)
+    private val currentWeatherFormattedVisiblesSubject = createBehaviorSubject(false)
+    private val isLoadingVisiblesSubject = createBehaviorSubject(true)
+    private val errorMessageTextsSubject = createBehaviorSubject<Optional<String>>(None)
+    private val errorMessageVisiblesSubject = createBehaviorSubject(false)
 
     val currentWeatherFormattedData: Observable<Optional<CurrentWeatherFormatted>> = currentWeatherFormattedDataSubject.hide()
     val currentWeatherFormattedVisibles: Observable<Boolean> = currentWeatherFormattedVisiblesSubject.hide()
@@ -35,8 +27,6 @@ class CurrentWeatherViewModel @Inject constructor(
     val errorMessageVisibles: Observable<Boolean> = errorMessageVisiblesSubject.hide()
 
     fun refresh() {
-        Timber.d("Refresh")
-
         currentWeatherFormattedDataSubject.onNext(None)
         currentWeatherFormattedVisiblesSubject.onNext(false)
         isLoadingVisiblesSubject.onNext(true)
@@ -46,7 +36,7 @@ class CurrentWeatherViewModel @Inject constructor(
         currentWeatherController.load("Brno")
                 .map {
                     CurrentWeatherFormatted(
-                            it.timestamp?.format(DateTimeFormatter.ofPattern("dd. LLLL H:mm")),
+                            it.timestamp?.format(dateTimeFormatterOfPattern("dd. LLLL H:mm")),
                             it.location,
                             it.temperatureCelsius?.let { "${it.roundToInt()} °C" },
                             it.pressureMilliBar?.let { "${it.roundToInt()} mBar" },
@@ -55,22 +45,17 @@ class CurrentWeatherViewModel @Inject constructor(
                             it.descriptionCode?.toDescriptionIcon() ?: UNKNOWN,
                             it.windSpeedKmph?.let { "$it km/h" },
                             it.windDirectionDegrees?.let { "${it.roundToInt()}°" },
-                            it.sunriseTimestamp?.format(DateTimeFormatter.ofPattern("H:mm")),
-                            it.sunsetTimestamp?.format(DateTimeFormatter.ofPattern("H:mm"))
+                            it.sunriseTimestamp?.format(dateTimeFormatterOfPattern("H:mm")),
+                            it.sunsetTimestamp?.format(dateTimeFormatterOfPattern("H:mm"))
                     )
                 }
-                .observeOn(mainThread())
                 .subscribe({
-                    Timber.d("Success: $it")
-
                     currentWeatherFormattedDataSubject.onNext(it.toOptional())
                     currentWeatherFormattedVisiblesSubject.onNext(true)
                     isLoadingVisiblesSubject.onNext(false)
                     errorMessageTextsSubject.onNext(None)
                     errorMessageVisiblesSubject.onNext(false)
                 }, {
-                    Timber.e("Error: $it")
-
                     currentWeatherFormattedDataSubject.onNext(None)
                     currentWeatherFormattedVisiblesSubject.onNext(false)
                     isLoadingVisiblesSubject.onNext(false)
