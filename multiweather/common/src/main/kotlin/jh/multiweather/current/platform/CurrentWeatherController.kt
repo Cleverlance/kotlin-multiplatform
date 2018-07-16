@@ -4,8 +4,8 @@ import jh.multiweather.current.io.CurrentWeatherParser
 import jh.multiweather.current.io.CurrentWeatherService
 import jh.multiweather.current.io.CurrentWeatherServiceParams
 import jh.multiweather.current.model.CurrentWeather
-import jh.multiweather.shared.infrastructure.Inject
-import jh.multiweather.shared.infrastructure.Singleton
+import jh.shared.inject.infrastructure.Inject
+import jh.shared.inject.infrastructure.Singleton
 import jh.shared.rx.infrastructure.Schedulers
 import jh.shared.rx.infrastructure.Single
 import jh.shared.rx.infrastructure.map

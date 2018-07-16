@@ -1,4 +1,4 @@
-package jh.multiweather.shared.infrastructure
+package jh.shared.inject.infrastructure
 
 import javax.inject.Singleton
 
