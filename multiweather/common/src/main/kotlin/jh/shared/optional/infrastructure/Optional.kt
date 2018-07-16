@@ -1,4 +1,4 @@
-package jh.multiweather.shared.infrastructure
+package jh.shared.optional.infrastructure
 
 sealed class Optional<out T : Any> {
 

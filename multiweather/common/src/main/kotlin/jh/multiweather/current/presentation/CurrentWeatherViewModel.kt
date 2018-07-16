@@ -4,9 +4,11 @@ import jh.multiweather.current.model.CurrentWeatherFormatted
 import jh.multiweather.current.model.CurrentWeatherFormatted.DescriptionIcon.*
 import jh.multiweather.current.model.dateTimeFormatterOfPattern
 import jh.multiweather.current.platform.CurrentWeatherController
-import jh.multiweather.shared.infrastructure.*
 import jh.shared.inject.infrastructure.Inject
 import jh.shared.inject.infrastructure.Singleton
+import jh.shared.optional.infrastructure.None
+import jh.shared.optional.infrastructure.Optional
+import jh.shared.optional.infrastructure.toOptional
 import jh.shared.rx.infrastructure.Observable
 import jh.shared.rx.infrastructure.map
 import jh.shared.rx.infrastructure.subscribe
