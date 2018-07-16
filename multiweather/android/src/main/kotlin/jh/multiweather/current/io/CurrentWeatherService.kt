@@ -1,12 +1,12 @@
 package jh.multiweather.current.io
 
-import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import jh.multiweather.current.io.CurrentWeatherServiceParams.API_KEY_KEY
 import jh.multiweather.current.io.CurrentWeatherServiceParams.BASE_URL
 import jh.multiweather.current.io.CurrentWeatherServiceParams.CITY_KEY
 import jh.multiweather.current.io.CurrentWeatherServiceParams.CURRENT_WEATHER_PATH
 import jh.multiweather.current.io.CurrentWeatherServiceParams.UNITS_KEY
+import jh.shared.rx.infrastructure.Single
 import okhttp3.ResponseBody
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory

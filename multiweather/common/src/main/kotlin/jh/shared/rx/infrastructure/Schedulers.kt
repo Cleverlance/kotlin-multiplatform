@@ -1,4 +1,4 @@
-package jh.multiweather.shared.infrastructure
+package jh.shared.rx.infrastructure
 
 expect object Schedulers {
     fun computation(): Scheduler

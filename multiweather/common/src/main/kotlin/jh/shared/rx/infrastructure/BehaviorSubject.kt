@@ -1,4 +1,4 @@
-package jh.multiweather.shared.infrastructure
+package jh.shared.rx.infrastructure
 
 expect class BehaviorSubject<T : Any> {
     fun onNext(t: T)

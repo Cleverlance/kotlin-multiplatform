@@ -1,4 +1,4 @@
-package jh.multiweather.shared.infrastructure
+package jh.shared.rx.infrastructure
 
 expect abstract class Single<T : Any> {
     fun observeOn(scheduler: Scheduler): Single<T>

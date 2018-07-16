@@ -1,4 +1,4 @@
-package jh.multiweather.shared.infrastructure
+package jh.shared.rx.infrastructure
 
 import io.reactivex.disposables.Disposable
 
