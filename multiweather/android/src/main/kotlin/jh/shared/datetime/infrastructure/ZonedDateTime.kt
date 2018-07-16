@@ -1,4 +1,4 @@
-package jh.multiweather.current.model
+package jh.shared.datetime.infrastructure
 
 import org.threeten.bp.ZonedDateTime
 

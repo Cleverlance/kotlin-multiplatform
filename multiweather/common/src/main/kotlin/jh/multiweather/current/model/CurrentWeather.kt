@@ -1,5 +1,7 @@
 package jh.multiweather.current.model
 
+import jh.shared.datetime.infrastructure.ZonedDateTime
+
 data class CurrentWeather(
         val timestamp: ZonedDateTime?,
         val location: String?,
