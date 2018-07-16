@@ -1,4 +1,4 @@
-package jh.multiweather.current.presentation
+package jh.multiweather.current.platform
 
 import jh.multiweather.current.io.CurrentWeatherParser
 import jh.multiweather.current.io.CurrentWeatherService

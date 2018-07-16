@@ -8,6 +8,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import io.reactivex.subjects.BehaviorSubject
 import jh.multiweather.current.model.CurrentWeatherFormatted
 import jh.multiweather.current.model.CurrentWeatherFormatted.DescriptionIcon.*
+import jh.multiweather.current.platform.CurrentWeatherController
 import org.threeten.bp.format.DateTimeFormatter
 import timber.log.Timber
 import javax.inject.Inject
