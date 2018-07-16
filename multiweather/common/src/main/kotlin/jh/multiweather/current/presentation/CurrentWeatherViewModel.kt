@@ -49,6 +49,7 @@ class CurrentWeatherViewModel @Inject constructor(
                             it.sunsetTimestamp?.format(dateTimeFormatterOfPattern("H:mm"))
                     )
                 }
+                // TODO observe on mainThread when AndroidSchedulers are available in android module
                 .subscribe({
                     currentWeatherFormattedDataSubject.onNext(it.toOptional())
                     currentWeatherFormattedVisiblesSubject.onNext(true)
