@@ -1,13 +1,11 @@
 package jh.multiweather.forecast.io
 
 import jh.multiweather.forecast.model.ForecastWeather
+import jh.shared.datetime.infrastructure.toZonedDateTime
 import kotlinx.serialization.Optional
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JSON
-import org.threeten.bp.Instant
-import org.threeten.bp.ZoneId
-import org.threeten.bp.ZonedDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -56,7 +54,4 @@ actual class ForecastWeatherParser @Inject actual constructor() {
                 @Optional @SerialName("description") val text: String? = null
         )
     }
-
-    // TODO remove duplication
-    private fun Long.toZonedDateTime() = ZonedDateTime.ofInstant(Instant.ofEpochSecond(this), ZoneId.systemDefault())
 }

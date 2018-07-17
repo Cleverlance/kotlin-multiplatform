@@ -1,7 +1,7 @@
 package jh.multiweather.forecast.model
 
 data class ForecastWeatherState(
-        val forecastWeather: List<ForecastWeatherFormatted>? = null,
+        val forecastWeathers: List<ForecastWeatherFormatted>? = null,
         val isForecastWeatherVisible: Boolean = false,
         val isLoadingVisible: Boolean = true,
         val errorMessage: String? = null,

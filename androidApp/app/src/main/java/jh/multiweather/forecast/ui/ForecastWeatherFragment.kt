@@ -40,7 +40,7 @@ class ForecastWeatherFragment : RxFragment<ForecastWeatherViewModel>() {
                     // TODO remove observeOn operator when RxAndroid issues are resolved
                     .observeOn(mainThread())
                     .subscribe {
-                        (forecasts.adapter as ForecastWeatherAdapter).items = it?.forecastWeather ?: listOf()
+                        (forecasts.adapter as ForecastWeatherAdapter).items = it?.forecastWeathers ?: listOf()
                         forecasts.visibility = if (it.isForecastWeatherVisible) VISIBLE else GONE
                         progressBar.visibility = if (it.isLoadingVisible) VISIBLE else GONE
                         errorMessage.text = it.errorMessage

@@ -31,21 +31,29 @@ class ForecastWeatherViewModel @Inject constructor(
 
         forecastWeatherController.load(API_KEY, "Brno")
                 .map {
-                    it.map {
-                        ForecastWeatherFormatted(
-                                it.timestamp?.format(dateTimeFormatterOfPattern("EEEE dd. M. H:mm")),
-                                it.location,
-                                it.temperatureMinCelsius?.let { "${it.roundToInt()}°" },
-                                it.temperatureMaxCelsius?.let { "${it.roundToInt()}°" },
-                                it.descriptionText,
-                                it.descriptionCode?.toWeatherDescription() ?: UNKNOWN
-                        )
-                    }
+                    it
+                            .filter { it.timestamp != null }
+                            .groupBy { it.timestamp!!.toLocalDate() }
+                            .flatMap {
+                                mutableListOf<ForecastWeatherFormatted>(ForecastWeatherFormatted.Header(it.key.format(dateTimeFormatterOfPattern("EEEE dd. LLLL"))))
+                                        .apply {
+                                            addAll(it.value.map {
+                                                ForecastWeatherFormatted.Item(
+                                                        it.timestamp?.format(dateTimeFormatterOfPattern("H:mm")),
+                                                        it.location,
+                                                        it.temperatureMinCelsius?.let { "${it.roundToInt()}°" },
+                                                        it.temperatureMaxCelsius?.let { "${it.roundToInt()}°" },
+                                                        it.descriptionText,
+                                                        it.descriptionCode?.toWeatherDescription() ?: UNKNOWN
+                                                )
+                                            })
+                                        }
+                            }
                 }
                 // TODO observe on mainThread when AndroidSchedulers are available in android module
                 .subscribe({
                     statesSubject.onNext(ForecastWeatherState(
-                            forecastWeather = it,
+                            forecastWeathers = it,
                             isForecastWeatherVisible = true,
                             isLoadingVisible = false
                     ))
