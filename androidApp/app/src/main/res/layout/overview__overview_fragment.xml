@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <EditText
+                android:id="@+id/input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary"
+                android:hint="@string/overview__city"
+                android:imeOptions="actionSearch"
+                android:inputType="textNoSuggestions|textCapWords"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                />
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <fragment
+        android:id="@+id/currentWeatherFragment"
+        android:name="jh.multiweather.current.ui.CurrentWeatherFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout="@layout/current__current_weather_fragment"
+        />
+
+    <fragment
+        android:id="@+id/forecastWeatherFragment"
+        android:name="jh.multiweather.forecast.ui.ForecastWeatherFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        tools:layout="@layout/forecast__forecast_weather_fragment"
+        />
+</LinearLayout>

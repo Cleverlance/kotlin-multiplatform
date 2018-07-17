@@ -1,0 +1,47 @@
+buildscript {
+    ext.kotlin_version = '1.2.51'
+    ext.serialization_version = '0.5.1'
+    repositories {
+        maven { url "https://kotlin.bintray.com/kotlinx" }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlinx:kotlinx-gradle-serialization-plugin:$serialization_version"
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url "https://kotlin.bintray.com/kotlinx" }
+    }
+}
+
+// TODO how to apply 'kotlin-platform-android' plugin?
+apply plugin: 'kotlin-platform-jvm'
+apply plugin: 'kotlinx-serialization'
+
+// Specify a group and a version of the library to access it in Android Studio.
+// By default the project directory name is used as an artifact name thus the full dependency
+// description will be 'jh.multiweather:android:1.0'
+group = 'jh.multiweather'
+version = 1.0
+
+dependencies {
+    // Specify Kotlin/JVM stdlib dependency.
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // Specify dependency on a common project for Kotlin multiplatform build.
+    expectedBy project(':multiweather:common')
+
+    implementation 'com.google.dagger:dagger:2.16'
+
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.15'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.1.0'
+
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$serialization_version"
+
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+}

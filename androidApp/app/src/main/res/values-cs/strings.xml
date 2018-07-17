@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="overview__city">Město</string>
+
+    <string name="current__wind">Vítr</string>
+    <string name="current__sunrise">Východ</string>
+    <string name="current__sunset">Západ</string>
+    <string name="current__refresh">Obnovit</string>
+</resources>
