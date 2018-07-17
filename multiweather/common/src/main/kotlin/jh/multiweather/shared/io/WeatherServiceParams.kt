@@ -6,6 +6,7 @@ object WeatherServiceParams {
     const val FORECAST_WEATHER_PATH = "forecast"
     const val API_KEY_KEY = "APPID"
     const val CITY_KEY = "q"
+    const val LANGUAGE_KEY = "lang"
     const val UNITS_KEY = "units"
 
     const val METRIC_UNITS = "metric"

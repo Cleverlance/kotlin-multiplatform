@@ -5,6 +5,7 @@ import jh.multiweather.shared.io.WeatherServiceParams.API_KEY_KEY
 import jh.multiweather.shared.io.WeatherServiceParams.BASE_URL
 import jh.multiweather.shared.io.WeatherServiceParams.CITY_KEY
 import jh.multiweather.shared.io.WeatherServiceParams.FORECAST_WEATHER_PATH
+import jh.multiweather.shared.io.WeatherServiceParams.LANGUAGE_KEY
 import jh.multiweather.shared.io.WeatherServiceParams.UNITS_KEY
 import jh.shared.rx.infrastructure.Single
 import okhttp3.ResponseBody
@@ -32,11 +33,12 @@ actual class ForecastWeatherService @Inject actual constructor() {
         fun forecastWeather(
                 @Query(API_KEY_KEY) apiKey: String,
                 @Query(CITY_KEY) city: String,
+                @Query(LANGUAGE_KEY) language: String,
                 @Query(UNITS_KEY) units: String
         ): Single<ResponseBody>
     }
 
-    actual fun load(apiKey: String, city: String, units: String): Single<String> = client.forecastWeather(apiKey, city, units)
+    actual fun load(apiKey: String, city: String, language: String, units: String): Single<String> = client.forecastWeather(apiKey, city, language, units)
             .subscribeOn(Schedulers.io())
             .map { it.string() }
             .delay(500, MILLISECONDS) // for demonstration purposes only

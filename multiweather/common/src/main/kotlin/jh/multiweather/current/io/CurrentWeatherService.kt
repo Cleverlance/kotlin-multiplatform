@@ -6,5 +6,5 @@ import jh.shared.rx.infrastructure.Single
 
 @Singleton
 expect class CurrentWeatherService @Inject constructor() {
-    fun load(apiKey: String, city: String, units: String): Single<String>
+    fun load(apiKey: String, city: String, language: String, units: String): Single<String>
 }

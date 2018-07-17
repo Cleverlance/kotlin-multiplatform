@@ -37,7 +37,7 @@ class ForecastWeatherViewModel @Inject constructor(
                                 it.location,
                                 it.temperatureMinCelsius?.let { "${it.roundToInt()}°" },
                                 it.temperatureMaxCelsius?.let { "${it.roundToInt()}°" },
-                                it.descriptionText?.capitalize(),
+                                it.descriptionText,
                                 it.descriptionCode?.toWeatherDescription() ?: UNKNOWN
                         )
                     }

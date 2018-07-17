@@ -20,7 +20,6 @@ actual class CurrentWeatherParser @Inject actual constructor() {
                         it.location,
                         it.mainParameters.temperatureCelsius,
                         it.mainParameters.pressureMilliBar,
-                        it.weatherDescriptions.first().short,
                         it.weatherDescriptions.first().long,
                         it.weatherDescriptions.first().code,
                         it.wind.speedKmph,

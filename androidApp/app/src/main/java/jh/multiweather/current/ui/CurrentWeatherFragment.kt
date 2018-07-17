@@ -38,7 +38,7 @@ class CurrentWeatherFragment : RxFragment<CurrentWeatherViewModel>() {
                             location.text = it?.location
                             temperature.text = it?.temperature
                             pressure.text = it?.pressure
-                            description.text = it?.descriptionLong
+                            description.text = it?.descriptionText
                             icon.setImageResource(descriptionIconMap.getOrDefault(it?.descriptionIcon
                                     ?: UNKNOWN, R.drawable.ic_unknown))
                             additionalInfo.text = "${getString(R.string.current__wind)} ${it?.windSpeed} ${it?.windDirection}  •  ${getString(R.string.current__sunrise)} ${it?.sunriseTimestamp}  •  ${getString(R.string.current__sunset)} ${it?.sunsetTimestamp}"
