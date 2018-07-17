@@ -3,6 +3,8 @@ package jh.multiweather.forecast.ui
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import jh.multiplatform.R
 import jh.multiweather.forecast.presentation.ForecastWeatherViewModel
@@ -39,7 +41,10 @@ class ForecastWeatherFragment : RxFragment<ForecastWeatherViewModel>() {
                     .observeOn(mainThread())
                     .subscribe {
                         (forecasts.adapter as ForecastWeatherAdapter).items = it?.forecastWeather ?: listOf()
-                        // TODO
+                        forecasts.visibility = if (it.isForecastWeatherVisible) VISIBLE else GONE
+                        progressBar.visibility = if (it.isLoadingVisible) VISIBLE else GONE
+                        errorMessage.text = it.errorMessage
+                        errorMessage.visibility = if (it.isErrorMessageVisible) VISIBLE else GONE
                     }
     )
 }
