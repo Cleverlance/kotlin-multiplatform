@@ -3,7 +3,7 @@ package jh.multiweather.overview.ui
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH
 import com.jakewharton.rxbinding2.widget.editorActions
 import com.jakewharton.rxbinding2.widget.textChanges
 import jh.multiplatform.R
@@ -32,7 +32,9 @@ class OverviewFragment : RxFragment<OverviewViewModel>() {
             }
         }
 
-        input.editorActions().subscribe { if (it == EditorInfo.IME_ACTION_GO) viewModel.refresh() }
+        input.editorActions()
+                .filter { it == IME_ACTION_SEARCH }
+                .subscribe { viewModel.refresh() }
     }
 
     override fun bindUiToViewModel() {
