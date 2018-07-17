@@ -3,6 +3,7 @@ package jh.multiweather.overview.ui
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import com.jakewharton.rxbinding2.widget.textChanges
 import jh.multiplatform.R
 import jh.multiweather.main.ui.MainApplication
 import jh.multiweather.overview.platform.OverviewViewModel
@@ -28,5 +29,9 @@ class OverviewFragment : RxFragment<OverviewViewModel>() {
                 true
             }
         }
+    }
+
+    override fun bindUiToViewModel() {
+        input.textChanges().subscribe { viewModel.setCity(it.toString()) }
     }
 }

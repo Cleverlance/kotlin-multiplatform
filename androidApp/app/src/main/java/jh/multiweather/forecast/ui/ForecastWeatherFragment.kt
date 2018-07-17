@@ -1,8 +1,6 @@
 package jh.multiweather.forecast.ui
 
-import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
@@ -18,12 +16,6 @@ class ForecastWeatherFragment : RxFragment<ForecastWeatherViewModel>() {
 
     override fun inject() {
         MainApplication.getInjector(context).inject(this)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        viewModel.refresh()
     }
 
     override fun bindUiToViewModel() {

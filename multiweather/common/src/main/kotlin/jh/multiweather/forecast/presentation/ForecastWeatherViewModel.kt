@@ -5,6 +5,7 @@ import jh.multiweather.forecast.model.ForecastWeatherState
 import jh.multiweather.forecast.platform.ForecastWeatherController
 import jh.multiweather.shared.model.WeatherDescription.UNKNOWN
 import jh.multiweather.shared.model.toWeatherDescription
+import jh.multiweather.shared.platform.InputController
 import jh.shared.datetime.infrastructure.dateTimeFormatterOfPattern
 import jh.shared.inject.infrastructure.Inject
 import jh.shared.inject.infrastructure.Singleton
@@ -16,7 +17,8 @@ import kotlin.math.roundToInt
 
 @Singleton
 class ForecastWeatherViewModel @Inject constructor(
-        private val forecastWeatherController: ForecastWeatherController
+        private val forecastWeatherController: ForecastWeatherController,
+        private val inputController: InputController
 ) {
     companion object {
         private const val API_KEY = "060babdcb0097cb661c39c2c9e6c4a09"
@@ -27,9 +29,9 @@ class ForecastWeatherViewModel @Inject constructor(
     val states: Observable<ForecastWeatherState> = statesSubject.hide()
 
     fun refresh() {
-        statesSubject.onNext(ForecastWeatherState())
+        statesSubject.onNext(ForecastWeatherState(isLoadingVisible = true))
 
-        forecastWeatherController.load(API_KEY, "Brno")
+        forecastWeatherController.load(API_KEY, inputController.city)
                 .map {
                     it
                             .filter { it.timestamp != null }

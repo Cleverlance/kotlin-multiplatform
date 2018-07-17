@@ -1,5 +1,7 @@
 <resources>
-    <string name="common__app_name">MultiWeather</string>
+    <string name="common__app_name" translatable="false">MultiWeather</string>
+
+    <string name="overview__city">City</string>
 
     <string name="current__wind">Wind</string>
     <string name="current__sunrise">Sunrise</string>
