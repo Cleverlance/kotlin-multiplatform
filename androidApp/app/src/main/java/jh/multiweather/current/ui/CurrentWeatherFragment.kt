@@ -8,27 +8,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import jh.multiplatform.R
 import jh.multiweather.current.presentation.CurrentWeatherViewModel
 import jh.multiweather.main.ui.MainApplication
-import jh.multiweather.shared.model.WeatherDescription.*
+import jh.multiweather.shared.model.WeatherDescription.UNKNOWN
+import jh.multiweather.shared.ui.descriptionIconMap
 import jh.shared.arch.ui.RxFragment
 import kotlinx.android.synthetic.main.current__current_weather_fragment.*
 
 // TODO add multiplatform logs
 class CurrentWeatherFragment : RxFragment<CurrentWeatherViewModel>() {
-
-    companion object {
-        private val descriptionIconMap = mapOf(
-                CLEAR to R.drawable.ic_clear,
-                DRIZZLE to R.drawable.ic_drizzle,
-                FEW_CLOUDS to R.drawable.ic_few_clouds,
-                FOG to R.drawable.ic_fog,
-                HEAVY_RAIN to R.drawable.ic_heavy_rain,
-                LIGHT_RAIN to R.drawable.ic_light_rain,
-                OVERCAST_CLOUDS to R.drawable.ic_overcast_clouds,
-                SCATTERED_CLOUDS to R.drawable.ic_scattered_clouds,
-                SNOW to R.drawable.ic_snow,
-                THUNDERSTORM to R.drawable.ic_thunderstorm
-        )
-    }
 
     override val layoutResId = R.layout.current__current_weather_fragment
 
