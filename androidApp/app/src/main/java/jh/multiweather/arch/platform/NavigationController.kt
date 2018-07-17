@@ -2,7 +2,7 @@ package jh.multiweather.arch.platform
 
 import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observable
-import jh.multiweather.arch.model.Screen
+import jh.shared.navigation.model.Screen
 import timber.log.Timber
 
 abstract class NavigationController<S : Any> {

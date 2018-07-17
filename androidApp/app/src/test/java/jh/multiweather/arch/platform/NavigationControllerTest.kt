@@ -1,6 +1,6 @@
 package jh.multiweather.arch.platform
 
-import jh.multiweather.arch.model.Screen
+import jh.shared.navigation.model.Screen
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4

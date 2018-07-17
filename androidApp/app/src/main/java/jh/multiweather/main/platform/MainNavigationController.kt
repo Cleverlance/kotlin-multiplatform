@@ -1,6 +1,6 @@
 package jh.multiweather.main.platform
 
-import jh.multiweather.arch.model.Screen
+import jh.shared.navigation.model.Screen
 import jh.multiweather.arch.platform.NavigationController
 import jh.multiweather.current.ui.CurrentWeatherFragment
 import jh.multiweather.main.model.ScreenData
