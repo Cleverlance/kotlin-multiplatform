@@ -22,7 +22,7 @@ class OverviewFragment : RxFragment<OverviewViewModel>() {
         super.onViewCreated(view, savedInstanceState)
 
         toolbar.menu.add(R.string.current__refresh).apply {
-            setIcon(R.drawable.ic_refresh)
+            setIcon(R.drawable.ic_search)
             setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             setOnMenuItemClickListener {
                 viewModel.refresh()
