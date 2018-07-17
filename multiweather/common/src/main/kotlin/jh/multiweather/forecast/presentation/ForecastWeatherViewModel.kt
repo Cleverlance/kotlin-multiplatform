@@ -43,8 +43,8 @@ class ForecastWeatherViewModel @Inject constructor(
                                                 ForecastWeatherFormatted.Item(
                                                         it.timestamp?.format(dateTimeFormatterOfPattern("H:mm")),
                                                         it.location,
-                                                        it.temperatureMinCelsius?.let { "${it.roundToInt()}°" },
-                                                        it.temperatureMaxCelsius?.let { "${it.roundToInt()}°" },
+                                                        it.temperatureMinCelsius?.let { "${it.roundToInt()} °C" },
+                                                        it.temperatureMaxCelsius?.let { "${it.roundToInt()} °C" },
                                                         it.descriptionText,
                                                         it.descriptionCode?.toWeatherDescription() ?: UNKNOWN
                                                 )
