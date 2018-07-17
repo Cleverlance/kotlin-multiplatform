@@ -1,4 +1,4 @@
-package jh.multiweather.arch.ui
+package jh.shared.arch.ui
 
 import android.os.Bundle
 import android.support.annotation.CallSuper

@@ -1,4 +1,4 @@
-package jh.multiweather.arch.infrastructure
+package jh.shared.arch.infrastructure
 
 import timber.log.Timber
 

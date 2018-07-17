@@ -4,9 +4,9 @@ import android.app.Application
 import android.content.Context
 import com.jakewharton.threetenabp.AndroidThreeTen
 import jh.multiplatform.BuildConfig
-import jh.multiweather.arch.infrastructure.TagPrefixDebugTree
 import jh.multiweather.main.di.DaggerMainComponent
 import jh.multiweather.main.di.MainComponent
+import jh.shared.arch.infrastructure.TagPrefixDebugTree
 import timber.log.Timber
 
 class MainApplication : Application() {

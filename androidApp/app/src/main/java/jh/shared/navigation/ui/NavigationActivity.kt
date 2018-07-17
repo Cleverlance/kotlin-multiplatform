@@ -1,7 +1,8 @@
-package jh.multiweather.arch.ui
+package jh.shared.navigation.ui
 
 import android.support.annotation.CallSuper
 import com.jakewharton.rxrelay2.PublishRelay
+import jh.shared.arch.ui.RxActivity
 import jh.shared.navigation.presentation.NavigationViewModel
 
 abstract class NavigationActivity<M : NavigationViewModel<S>, S : Any> : RxActivity<M>() {
