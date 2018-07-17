@@ -1,5 +1,6 @@
 package jh.shared.optional.infrastructure
 
+// TODO remove if not needed
 sealed class Optional<out T : Any> {
 
     /**
