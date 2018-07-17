@@ -7,9 +7,9 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import jh.multiplatform.R
-import jh.multiweather.current.model.CurrentWeatherFormatted.DescriptionIcon.*
 import jh.multiweather.current.presentation.CurrentWeatherViewModel
 import jh.multiweather.main.ui.MainApplication
+import jh.multiweather.shared.model.WeatherDescription.*
 import jh.shared.arch.ui.RxFragment
 import kotlinx.android.synthetic.main.current__current_weather_fragment.*
 

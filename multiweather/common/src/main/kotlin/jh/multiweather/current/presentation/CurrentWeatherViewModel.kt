@@ -1,9 +1,9 @@
 package jh.multiweather.current.presentation
 
 import jh.multiweather.current.model.CurrentWeatherFormatted
-import jh.multiweather.current.model.CurrentWeatherFormatted.DescriptionIcon.*
 import jh.multiweather.current.model.CurrentWeatherState
 import jh.multiweather.current.platform.CurrentWeatherController
+import jh.multiweather.shared.model.WeatherDescription.*
 import jh.shared.datetime.infrastructure.dateTimeFormatterOfPattern
 import jh.shared.inject.infrastructure.Inject
 import jh.shared.inject.infrastructure.Singleton

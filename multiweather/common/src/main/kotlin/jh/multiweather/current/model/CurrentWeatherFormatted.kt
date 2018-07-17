@@ -1,5 +1,7 @@
 package jh.multiweather.current.model
 
+import jh.multiweather.shared.model.WeatherDescription
+
 data class CurrentWeatherFormatted(
         val timestamp: String?,
         val location: String?,
@@ -7,23 +9,9 @@ data class CurrentWeatherFormatted(
         val pressure: String?,
         val descriptionShort: String?,
         val descriptionLong: String?,
-        val descriptionIcon: DescriptionIcon,
+        val descriptionIcon: WeatherDescription,
         val windSpeed: String?,
         val windDirection: String?,
         val sunriseTimestamp: String?,
         val sunsetTimestamp: String?
-) {
-    enum class DescriptionIcon {
-        CLEAR,
-        FOG,
-        FEW_CLOUDS,
-        SCATTERED_CLOUDS,
-        OVERCAST_CLOUDS,
-        DRIZZLE,
-        LIGHT_RAIN,
-        HEAVY_RAIN,
-        SNOW,
-        THUNDERSTORM,
-        UNKNOWN
-    }
-}
+)
