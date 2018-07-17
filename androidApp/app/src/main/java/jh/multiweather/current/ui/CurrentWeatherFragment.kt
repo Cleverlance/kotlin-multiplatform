@@ -55,6 +55,7 @@ class CurrentWeatherFragment : RxFragment<CurrentWeatherViewModel>() {
     override fun bindViewModelToUi() = with(viewModel) {
         listOf(
                 states
+                        // TODO remove observeOn operator when RxAndroid issues are resolved
                         .observeOn(mainThread())
                         .subscribe {
                             it.currentWeather.let {
