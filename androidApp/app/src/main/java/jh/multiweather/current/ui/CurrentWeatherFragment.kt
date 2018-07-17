@@ -54,40 +54,23 @@ class CurrentWeatherFragment : RxFragment<CurrentWeatherViewModel>() {
 
     override fun bindViewModelToUi() = with(viewModel) {
         listOf(
-                currentWeatherFormattedData
-                        // TODO remove observeOn operator when RxAndroid issues are resolved
+                states
                         .observeOn(mainThread())
                         .subscribe {
-                            with(it.toNullable()) {
-                                date.text = this?.timestamp
-                                location.text = this?.location
-                                temperature.text = this?.temperatureCelsius
-                                pressure.text = this?.pressureMilliBar
-                                description.text = this?.descriptionLong
-                                icon.setImageResource(descriptionIconMap.getOrDefault(this?.descriptionIcon
+                            it.currentWeather.let {
+                                date.text = it?.timestamp
+                                location.text = it?.location
+                                temperature.text = it?.temperature
+                                pressure.text = it?.pressure
+                                description.text = it?.descriptionLong
+                                icon.setImageResource(descriptionIconMap.getOrDefault(it?.descriptionIcon
                                         ?: UNKNOWN, R.drawable.ic_unknown))
-                                additionalInfo.text = "${getString(R.string.current__wind)} ${this?.windSpeedKmph} ${this?.windDirectionDegrees}  •  ${getString(R.string.current__sunrise)} ${this?.sunriseTimestamp}  •  ${getString(R.string.current__sunset)} ${this?.sunsetTimestamp}"
+                                additionalInfo.text = "${getString(R.string.current__wind)} ${it?.windSpeed} ${it?.windDirection}  •  ${getString(R.string.current__sunrise)} ${it?.sunriseTimestamp}  •  ${getString(R.string.current__sunset)} ${it?.sunsetTimestamp}"
                             }
-                        },
-                currentWeatherFormattedVisibles
-                        .observeOn(mainThread())
-                        .subscribe {
-                            listOf(date, location, temperature, pressure, description, icon, additionalInfo).forEach { view -> view.visibility = if (it) VISIBLE else GONE }
-                        },
-                isLoadingVisibles
-                        .observeOn(mainThread())
-                        .subscribe {
-                            progressBar.visibility = if (it) VISIBLE else GONE
-                        },
-                errorMessageTexts
-                        .observeOn(mainThread())
-                        .subscribe {
-                            errorMessage.text = it.toNullable()
-                        },
-                errorMessageVisibles
-                        .observeOn(mainThread())
-                        .subscribe {
-                            errorMessage.visibility = if (it) VISIBLE else GONE
+                            listOf(date, location, temperature, pressure, description, icon, additionalInfo).forEach { view -> view.visibility = if (it.isCurrentWeatherVisible) VISIBLE else GONE }
+                            progressBar.visibility = if (it.isLoadingVisible) VISIBLE else GONE
+                            errorMessage.text = it.errorMessage
+                            errorMessage.visibility = if (it.isErrorMessageVisible) VISIBLE else GONE
                         }
         )
     }

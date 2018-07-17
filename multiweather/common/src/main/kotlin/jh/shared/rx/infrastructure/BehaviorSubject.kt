@@ -3,6 +3,7 @@ package jh.shared.rx.infrastructure
 expect class BehaviorSubject<T : Any> {
     fun onNext(t: T)
     fun hide(): Observable<T>
+    fun getValue(): T?
 }
 
 // TODO how to expect Java static methods like BehaviorSubject.createDefault(...)?

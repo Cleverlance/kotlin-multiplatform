@@ -2,13 +2,11 @@ package jh.multiweather.current.presentation
 
 import jh.multiweather.current.model.CurrentWeatherFormatted
 import jh.multiweather.current.model.CurrentWeatherFormatted.DescriptionIcon.*
+import jh.multiweather.current.model.CurrentWeatherState
 import jh.multiweather.current.platform.CurrentWeatherController
 import jh.shared.datetime.infrastructure.dateTimeFormatterOfPattern
 import jh.shared.inject.infrastructure.Inject
 import jh.shared.inject.infrastructure.Singleton
-import jh.shared.optional.infrastructure.None
-import jh.shared.optional.infrastructure.Optional
-import jh.shared.optional.infrastructure.toOptional
 import jh.shared.rx.infrastructure.Observable
 import jh.shared.rx.infrastructure.createBehaviorSubject
 import jh.shared.rx.infrastructure.map
@@ -23,26 +21,12 @@ class CurrentWeatherViewModel @Inject constructor(
         private const val API_KEY = "060babdcb0097cb661c39c2c9e6c4a09"
     }
 
-    private val currentWeatherFormattedDataSubject = createBehaviorSubject<Optional<CurrentWeatherFormatted>>(None)
-    private val currentWeatherFormattedVisiblesSubject = createBehaviorSubject(false)
-    private val isLoadingVisiblesSubject = createBehaviorSubject(true)
-    private val errorMessageTextsSubject = createBehaviorSubject<Optional<String>>(None)
-    private val errorMessageVisiblesSubject = createBehaviorSubject(false)
+    private val statesSubject = createBehaviorSubject(CurrentWeatherState())
 
-    val currentWeatherFormattedData: Observable<Optional<CurrentWeatherFormatted>> = currentWeatherFormattedDataSubject.hide()
-    val currentWeatherFormattedVisibles: Observable<Boolean> = currentWeatherFormattedVisiblesSubject.hide()
-
-    val isLoadingVisibles: Observable<Boolean> = isLoadingVisiblesSubject.hide()
-
-    val errorMessageTexts: Observable<Optional<String>> = errorMessageTextsSubject.hide()
-    val errorMessageVisibles: Observable<Boolean> = errorMessageVisiblesSubject.hide()
+    val states: Observable<CurrentWeatherState> = statesSubject.hide()
 
     fun refresh() {
-        currentWeatherFormattedDataSubject.onNext(None)
-        currentWeatherFormattedVisiblesSubject.onNext(false)
-        isLoadingVisiblesSubject.onNext(true)
-        errorMessageTextsSubject.onNext(None)
-        errorMessageVisiblesSubject.onNext(false)
+        statesSubject.onNext(CurrentWeatherState())
 
         currentWeatherController.load(API_KEY, "Brno")
                 .map {
@@ -62,17 +46,17 @@ class CurrentWeatherViewModel @Inject constructor(
                 }
                 // TODO observe on mainThread when AndroidSchedulers are available in android module
                 .subscribe({
-                    currentWeatherFormattedDataSubject.onNext(it.toOptional())
-                    currentWeatherFormattedVisiblesSubject.onNext(true)
-                    isLoadingVisiblesSubject.onNext(false)
-                    errorMessageTextsSubject.onNext(None)
-                    errorMessageVisiblesSubject.onNext(false)
+                    statesSubject.onNext(CurrentWeatherState(
+                            currentWeather = it,
+                            isCurrentWeatherVisible = true,
+                            isLoadingVisible = false
+                    ))
                 }, {
-                    currentWeatherFormattedDataSubject.onNext(None)
-                    currentWeatherFormattedVisiblesSubject.onNext(false)
-                    isLoadingVisiblesSubject.onNext(false)
-                    errorMessageTextsSubject.onNext(it.toString().toOptional())
-                    errorMessageVisiblesSubject.onNext(true)
+                    statesSubject.onNext(CurrentWeatherState(
+                            isLoadingVisible = false,
+                            errorMessage = it.toString(),
+                            isErrorMessageVisible = true
+                    ))
                 })
     }
 

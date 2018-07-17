@@ -3,13 +3,13 @@ package jh.multiweather.current.model
 data class CurrentWeatherFormatted(
         val timestamp: String?,
         val location: String?,
-        val temperatureCelsius: String?,
-        val pressureMilliBar: String?,
+        val temperature: String?,
+        val pressure: String?,
         val descriptionShort: String?,
         val descriptionLong: String?,
         val descriptionIcon: DescriptionIcon,
-        val windSpeedKmph: String?,
-        val windDirectionDegrees: String?,
+        val windSpeed: String?,
+        val windDirection: String?,
         val sunriseTimestamp: String?,
         val sunsetTimestamp: String?
 ) {
