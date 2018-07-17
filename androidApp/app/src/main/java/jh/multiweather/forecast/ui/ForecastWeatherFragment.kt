@@ -1,13 +1,16 @@
 package jh.multiweather.forecast.ui
 
 import android.os.Bundle
+import android.support.v7.widget.DividerItemDecoration
+import android.support.v7.widget.DividerItemDecoration.VERTICAL
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import jh.multiplatform.R
 import jh.multiweather.forecast.presentation.ForecastWeatherViewModel
 import jh.multiweather.main.ui.MainApplication
 import jh.shared.arch.ui.RxFragment
-import timber.log.Timber
+import kotlinx.android.synthetic.main.forecast__forecast_weather_fragment.*
 
 class ForecastWeatherFragment : RxFragment<ForecastWeatherViewModel>() {
 
@@ -23,12 +26,23 @@ class ForecastWeatherFragment : RxFragment<ForecastWeatherViewModel>() {
         viewModel.refresh()
     }
 
+    override fun bindUiToViewModel() {
+        super.bindUiToViewModel()
+
+        with(forecasts) {
+            layoutManager = LinearLayoutManager(context)
+            addItemDecoration(DividerItemDecoration(context, VERTICAL))
+            adapter = ForecastWeatherAdapter(context)
+        }
+    }
+
     override fun bindViewModelToUi() = listOf(
             viewModel.states
                     // TODO remove observeOn operator when RxAndroid issues are resolved
                     .observeOn(mainThread())
                     .subscribe {
-                        Timber.d("*** Forecast: $it")
+                        (forecasts.adapter as ForecastWeatherAdapter).items = it?.forecastWeather ?: listOf()
+                        // TODO
                     }
     )
 }
