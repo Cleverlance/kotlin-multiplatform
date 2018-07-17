@@ -21,8 +21,8 @@ actual class ForecastWeatherParser @Inject actual constructor() {
                             it.city.name,
                             item.mainParameters.temperatureMinCelsius,
                             item.mainParameters.temperatureMaxCelsius,
-                            item.weatherDescription.text,
-                            item.weatherDescription.code
+                            item.weatherDescriptions.first().text,
+                            item.weatherDescriptions.first().code
                     )
                 }
             }
@@ -41,7 +41,7 @@ actual class ForecastWeatherParser @Inject actual constructor() {
         data class ForecastItem(
                 @Optional @SerialName("dt") val timestamp: Long? = null,
                 @SerialName("main") val mainParameters: MainParameters,
-                @SerialName("weather") val weatherDescription: WeatherDescription
+                @SerialName("weather") val weatherDescriptions: List<WeatherDescription>
         )
 
         @Serializable
