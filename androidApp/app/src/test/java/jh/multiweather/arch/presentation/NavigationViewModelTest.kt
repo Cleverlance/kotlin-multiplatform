@@ -6,6 +6,7 @@ import com.nhaarman.mockito_kotlin.verify
 import io.reactivex.Observable
 import jh.shared.navigation.model.Screen
 import jh.shared.navigation.platform.NavigationController
+import jh.shared.navigation.presentation.NavigationViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith

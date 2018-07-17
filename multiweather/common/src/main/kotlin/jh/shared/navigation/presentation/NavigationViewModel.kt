@@ -1,7 +1,6 @@
-package jh.multiweather.arch.presentation
+package jh.shared.navigation.presentation
 
 import jh.shared.navigation.platform.NavigationController
-import timber.log.Timber
 
 abstract class NavigationViewModel<S : Any>(
         private val navigationController: NavigationController<S>
@@ -11,8 +10,6 @@ abstract class NavigationViewModel<S : Any>(
     val defaultScreen = navigationController.defaultScreen
 
     fun back() {
-        Timber.d("Back")
-
         navigationController.back()
     }
 }
