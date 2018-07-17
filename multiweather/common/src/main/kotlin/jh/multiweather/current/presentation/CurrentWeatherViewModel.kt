@@ -18,6 +18,9 @@ import kotlin.math.roundToInt
 class CurrentWeatherViewModel @Inject constructor(
         private val currentWeatherController: CurrentWeatherController
 ) {
+    companion object {
+        private const val API_KEY = "060babdcb0097cb661c39c2c9e6c4a09"
+    }
 
     private val currentWeatherFormattedDataSubject = jh.shared.rx.infrastructure.createBehaviorSubject<Optional<CurrentWeatherFormatted>>(None)
     private val currentWeatherFormattedVisiblesSubject = jh.shared.rx.infrastructure.createBehaviorSubject(false)
@@ -40,7 +43,7 @@ class CurrentWeatherViewModel @Inject constructor(
         errorMessageTextsSubject.onNext(None)
         errorMessageVisiblesSubject.onNext(false)
 
-        currentWeatherController.load("Brno")
+        currentWeatherController.load(API_KEY, "Brno")
                 .map {
                     CurrentWeatherFormatted(
                             it.timestamp?.format(dateTimeFormatterOfPattern("dd. LLLL H:mm")),
