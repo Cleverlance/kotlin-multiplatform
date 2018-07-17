@@ -3,7 +3,8 @@ package jh.multiweather.current.presentation
 import jh.multiweather.current.model.CurrentWeatherFormatted
 import jh.multiweather.current.model.CurrentWeatherState
 import jh.multiweather.current.platform.CurrentWeatherController
-import jh.multiweather.shared.model.WeatherDescription.*
+import jh.multiweather.shared.model.WeatherDescription.UNKNOWN
+import jh.multiweather.shared.model.toWeatherDescription
 import jh.shared.datetime.infrastructure.dateTimeFormatterOfPattern
 import jh.shared.inject.infrastructure.Inject
 import jh.shared.inject.infrastructure.Singleton
@@ -37,7 +38,7 @@ class CurrentWeatherViewModel @Inject constructor(
                             it.pressureMilliBar?.let { "${it.roundToInt()} mBar" },
                             it.descriptionShort?.capitalize(),
                             it.descriptionLong?.capitalize(),
-                            it.descriptionCode?.toDescriptionIcon() ?: UNKNOWN,
+                            it.descriptionCode?.toWeatherDescription() ?: UNKNOWN,
                             it.windSpeedKmph?.let { "$it km/h" },
                             it.windDirectionDegrees?.let { "${it.roundToInt()}°" },
                             it.sunriseTimestamp?.format(dateTimeFormatterOfPattern("H:mm")),
@@ -58,20 +59,6 @@ class CurrentWeatherViewModel @Inject constructor(
                             isErrorMessageVisible = true
                     ))
                 })
-    }
-
-    private fun Int.toDescriptionIcon() = when (this) {
-        in 200..299 -> THUNDERSTORM
-        in 300..399 -> DRIZZLE
-        in 500..504 -> LIGHT_RAIN
-        in 511..599 -> HEAVY_RAIN
-        in 600..699 -> SNOW
-        in 700..799 -> FOG
-        800 -> CLEAR
-        801 -> FEW_CLOUDS
-        802 -> SCATTERED_CLOUDS
-        in 803..804 -> OVERCAST_CLOUDS
-        else -> UNKNOWN
     }
 }
 
