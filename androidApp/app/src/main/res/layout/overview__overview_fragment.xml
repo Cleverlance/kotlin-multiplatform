@@ -24,6 +24,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/colorPrimary"
                 android:hint="@string/overview__city"
+                android:imeOptions="actionGo"
                 android:inputType="textNoSuggestions|textCapWords"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 />
