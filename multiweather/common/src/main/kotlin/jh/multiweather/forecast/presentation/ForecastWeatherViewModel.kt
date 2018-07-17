@@ -33,7 +33,7 @@ class ForecastWeatherViewModel @Inject constructor(
                 .map {
                     it.map {
                         ForecastWeatherFormatted(
-                                it.timestamp?.format(dateTimeFormatterOfPattern("EEEE dd. MM. H:mm")),
+                                it.timestamp?.format(dateTimeFormatterOfPattern("EEEE dd. M. H:mm")),
                                 it.location,
                                 it.temperatureMinCelsius?.let { "${it.roundToInt()}°" },
                                 it.temperatureMaxCelsius?.let { "${it.roundToInt()}°" },
