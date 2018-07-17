@@ -10,6 +10,7 @@ import jh.shared.optional.infrastructure.None
 import jh.shared.optional.infrastructure.Optional
 import jh.shared.optional.infrastructure.toOptional
 import jh.shared.rx.infrastructure.Observable
+import jh.shared.rx.infrastructure.createBehaviorSubject
 import jh.shared.rx.infrastructure.map
 import jh.shared.rx.infrastructure.subscribe
 import kotlin.math.roundToInt
@@ -22,11 +23,11 @@ class CurrentWeatherViewModel @Inject constructor(
         private const val API_KEY = "060babdcb0097cb661c39c2c9e6c4a09"
     }
 
-    private val currentWeatherFormattedDataSubject = jh.shared.rx.infrastructure.createBehaviorSubject<Optional<CurrentWeatherFormatted>>(None)
-    private val currentWeatherFormattedVisiblesSubject = jh.shared.rx.infrastructure.createBehaviorSubject(false)
-    private val isLoadingVisiblesSubject = jh.shared.rx.infrastructure.createBehaviorSubject(true)
-    private val errorMessageTextsSubject = jh.shared.rx.infrastructure.createBehaviorSubject<Optional<String>>(None)
-    private val errorMessageVisiblesSubject = jh.shared.rx.infrastructure.createBehaviorSubject(false)
+    private val currentWeatherFormattedDataSubject = createBehaviorSubject<Optional<CurrentWeatherFormatted>>(None)
+    private val currentWeatherFormattedVisiblesSubject = createBehaviorSubject(false)
+    private val isLoadingVisiblesSubject = createBehaviorSubject(true)
+    private val errorMessageTextsSubject = createBehaviorSubject<Optional<String>>(None)
+    private val errorMessageVisiblesSubject = createBehaviorSubject(false)
 
     val currentWeatherFormattedData: Observable<Optional<CurrentWeatherFormatted>> = currentWeatherFormattedDataSubject.hide()
     val currentWeatherFormattedVisibles: Observable<Boolean> = currentWeatherFormattedVisiblesSubject.hide()
