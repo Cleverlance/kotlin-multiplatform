@@ -5,7 +5,7 @@ import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import io.reactivex.Observable
 import jh.shared.navigation.model.Screen
-import jh.multiweather.arch.platform.NavigationController
+import jh.shared.navigation.platform.NavigationController
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import org.junit.runner.RunWith

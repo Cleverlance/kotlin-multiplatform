@@ -1,7 +1,7 @@
 package jh.multiweather.main.platform
 
 import jh.shared.navigation.model.Screen
-import jh.multiweather.arch.platform.NavigationController
+import jh.shared.navigation.platform.NavigationController
 import jh.multiweather.current.ui.CurrentWeatherFragment
 import jh.multiweather.main.model.ScreenData
 import javax.inject.Inject

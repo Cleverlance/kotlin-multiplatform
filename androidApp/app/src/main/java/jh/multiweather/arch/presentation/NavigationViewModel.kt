@@ -1,6 +1,6 @@
 package jh.multiweather.arch.presentation
 
-import jh.multiweather.arch.platform.NavigationController
+import jh.shared.navigation.platform.NavigationController
 import timber.log.Timber
 
 abstract class NavigationViewModel<S : Any>(

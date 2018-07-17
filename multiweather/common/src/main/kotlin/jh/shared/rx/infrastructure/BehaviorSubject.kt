@@ -6,4 +6,4 @@ expect class BehaviorSubject<T : Any> {
 }
 
 // TODO how to expect Java static methods like BehaviorSubject.createDefault(...)?
-expect fun <T : Any> createBehaviorSubject(defaultValue: T): BehaviorSubject<T>
+expect fun <T : Any> createBehaviorSubject(defaultValue: T? = null): BehaviorSubject<T>
