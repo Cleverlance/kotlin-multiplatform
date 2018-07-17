@@ -1,8 +1,6 @@
 package jh.multiweather.forecast.ui
 
 import android.os.Bundle
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.DividerItemDecoration.VERTICAL
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
 import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
@@ -31,7 +29,6 @@ class ForecastWeatherFragment : RxFragment<ForecastWeatherViewModel>() {
 
         with(forecasts) {
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(DividerItemDecoration(context, VERTICAL))
             adapter = ForecastWeatherAdapter(context)
         }
     }

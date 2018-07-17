@@ -4,14 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/content_padding"
+    android:minHeight="@dimen/list_item_height"
     >
 
     <ImageView
         android:id="@+id/icon"
         android:layout_width="@dimen/small_icon"
         android:layout_height="@dimen/small_icon"
+        android:layout_marginLeft="@dimen/content_padding"
         android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ContentDescription"
@@ -24,8 +26,10 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/content_padding"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintLeft_toRightOf="@+id/icon"
+        app:layout_constraintBottom_toTopOf="@+id/description"
+        app:layout_constraintStart_toEndOf="@+id/icon"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
         tools:text="Monday 19. 5."
         />
 
@@ -33,9 +37,10 @@
         android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/textSecondary"
-        app:layout_constraintLeft_toLeftOf="@+id/date"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/icon"
+        app:layout_constraintStart_toStartOf="@+id/date"
         app:layout_constraintTop_toBottomOf="@+id/date"
         tools:text="Clear sky"
         />
@@ -44,9 +49,12 @@
         android:id="@+id/temperatureMax"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/content_padding"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/temperatureMin"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
         tools:text="21°"
         />
 
@@ -56,7 +64,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/textSecondary"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/temperatureMax"
         app:layout_constraintTop_toBottomOf="@+id/temperatureMax"
         tools:text="18°"
         />
