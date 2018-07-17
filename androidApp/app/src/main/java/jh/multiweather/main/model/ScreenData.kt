@@ -1,4 +1,4 @@
-package jh.shared.navigation.model
+package jh.multiweather.main.model
 
 import android.support.v4.app.Fragment
 import kotlin.reflect.KClass

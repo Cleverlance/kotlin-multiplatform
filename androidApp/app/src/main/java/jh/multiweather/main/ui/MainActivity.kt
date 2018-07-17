@@ -4,7 +4,7 @@ import android.os.Bundle
 import jh.multiplatform.R
 import jh.multiweather.main.presentation.MainActivityViewModel
 import jh.shared.navigation.model.Screen
-import jh.shared.navigation.model.ScreenData
+import jh.multiweather.main.model.ScreenData
 import jh.shared.navigation.ui.NavigationActivity
 
 class MainActivity : NavigationActivity<MainActivityViewModel, ScreenData>() {

@@ -1,8 +1,9 @@
-package jh.shared.navigation.platform
+package jh.multiweather.main.platform
 
 import jh.multiweather.current.ui.CurrentWeatherFragment
 import jh.shared.navigation.model.Screen
-import jh.shared.navigation.model.ScreenData
+import jh.multiweather.main.model.ScreenData
+import jh.shared.navigation.platform.NavigationController
 import javax.inject.Inject
 import javax.inject.Singleton
 
