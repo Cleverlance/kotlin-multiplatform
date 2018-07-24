@@ -1,10 +1,9 @@
 package jh.shared.datetime.infrastructure
 
-expect class ZonedDateTime {
-    // TODO use DateTimeFormatter only if format strings are compatible across platforms; otherwise create one formatting method for every format needed
-    fun format(formatter: DateTimeFormatter): String
-
-    fun toLocalDate(): LocalDate
-}
+expect class ZonedDateTime
 
 expect fun Long.toZonedDateTime(): ZonedDateTime
+
+expect fun ZoneDateTime.format(formatter: DateTimeFormatter): String
+
+expect fun ZoneDateTime.toLocalDate(): LocalDate

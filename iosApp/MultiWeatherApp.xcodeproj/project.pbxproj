@@ -49,11 +49,15 @@
 
 /* Begin PBXFileReference section */
 		5A33B17D855F1083BDC6FE2F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		5A33B20452DE71C1C39637E5 /* DateTimeFormatter.kt */ = {isa = PBXFileReference; lastKnownFileType = file.kt; name = DateTimeFormatter.kt; path = ../multiweather/ios/src/main/kotlin/jh/shared/datetime/infrastructure/DateTimeFormatter.kt; sourceTree = "<group>"; };
 		5A33B31389F2CC7A09A29FE8 /* MultiWeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiWeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5A33B4FAC4C567E3F4875345 /* LocalDate.kt */ = {isa = PBXFileReference; lastKnownFileType = file.kt; name = LocalDate.kt; path = ../multiweather/ios/src/main/kotlin/jh/shared/datetime/infrastructure/LocalDate.kt; sourceTree = "<group>"; };
 		5A33B7074041A02CD4A78E58 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		5A33B7960F15D93C3A34D945 /* LocaleController.kt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.kt; name = LocaleController.kt; path = ../multiweather/ios/src/main/kotlin/jh/shared/locale/platform/LocaleController.kt; sourceTree = "<group>"; };
 		5A33B9580529855B2968A26E /* MultiWeatherAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiWeatherAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A33BA0AEC14816879B86210 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5A33BA80C98A8B798AD8B927 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
+		5A33BB01DB97B78E0D085D68 /* Locale.kt */ = {isa = PBXFileReference; lastKnownFileType = file.kt; name = Locale.kt; path = ../multiweather/ios/src/main/kotlin/jh/shared/locale/model/Locale.kt; sourceTree = "<group>"; };
 		5A33BD91AEFF7EC58C7F3338 /* MultiWeatherAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiWeatherAppTests.swift; sourceTree = "<group>"; };
 		5A33BE11A50D5A5A688986C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
 		5A33BE8B5B1C3A71129E58B8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -93,6 +97,10 @@
 				5A33B95433129AC4323A49C6 /* MultiWeatherAppTests */,
 				BEC96DEC210748050000F753 /* MultiWeather */,
 				5A33B9628DFE1BAC9A221DD6 /* Products */,
+				5A33B4FAC4C567E3F4875345 /* LocalDate.kt */,
+				5A33B20452DE71C1C39637E5 /* DateTimeFormatter.kt */,
+				5A33BB01DB97B78E0D085D68 /* Locale.kt */,
+				5A33B7960F15D93C3A34D945 /* LocaleController.kt */,
 			);
 			sourceTree = "<group>";
 		};

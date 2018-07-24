@@ -32,5 +32,5 @@ task test(dependsOn: 'compileKonanNativeTestIos_x64', type: Exec) {
 
 dependencies {
     // Specify dependency on a common project for Kotlin multiplatform build
-    //expectedBy project(':multiweather:common')
+    expectedBy project(':multiweather:common')
 }
