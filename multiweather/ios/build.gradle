@@ -1,0 +1,36 @@
+apply plugin: 'konan'
+
+konan.targets = [
+    'ios_arm64', 'ios_x64'
+]
+        
+konanArtifacts {
+    framework('MultiWeather') {
+        enableMultiplatform true
+        srcDir 'src/main/kotlin'
+        extraOpts '-module_name', ''
+    }
+
+    library('NativeLib') {
+        enableMultiplatform true
+    }
+
+    program('NativeTest') {
+        srcDir 'src/test/kotlin'
+        commonSourceSet 'test'
+        libraries {
+            artifact 'NativeLib'
+        }
+        extraOpts '-tr'
+    }
+}
+
+task test(dependsOn: 'compileKonanNativeTestIos_x64', type: Exec) {
+    def textExecutable = tasks["compileKonanNativeTestIos_x64"].artifactPath
+    commandLine("xcrun", "simctl", "spawn", "iPhone 8", textExecutable)
+}
+
+dependencies {
+    // Specify dependency on a common project for Kotlin multiplatform build
+    //expectedBy project(':multiweather:common')
+}
