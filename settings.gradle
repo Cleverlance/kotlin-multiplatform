@@ -1,3 +1,4 @@
 include ':multiweather'
 include ':multiweather:common'
 include ':multiweather:android'
+include ':androidApp:app'

@@ -1,5 +1,4 @@
 buildscript {
-    ext.kotlin_version = '1.2.51'
     ext.serialization_version = '0.5.1'
     repositories {
         maven { url "https://kotlin.bintray.com/kotlinx" }
@@ -9,14 +8,12 @@ buildscript {
     }
 }
 
-allprojects {
     repositories {
         maven { url "https://kotlin.bintray.com/kotlinx" }
     }
-}
 
-// TODO how to apply 'kotlin-platform-android' plugin?
-apply plugin: 'kotlin-platform-jvm'
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-platform-android'
 apply plugin: 'kotlinx-serialization'
 
 // Specify a group and a version of the library to access it in Android Studio.
@@ -24,6 +21,14 @@ apply plugin: 'kotlinx-serialization'
 // description will be 'jh.multiweather:android:1.0'
 group = 'jh.multiweather'
 version = 1.0
+
+android {
+    compileSdkVersion 27
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+}
 
 dependencies {
     // Specify Kotlin/JVM stdlib dependency.

@@ -26,7 +26,8 @@ android {
 
 // TODO remove unused dependencies
 dependencies {
-    implementation 'jh.multiweather:android:1.0'
+    // implementation 'jh.multiweather:android:1.0'
+    implementation project(':multiweather:android')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
