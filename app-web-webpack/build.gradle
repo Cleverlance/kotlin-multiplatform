@@ -1,0 +1,51 @@
+buildscript {
+
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "http://dl.bintray.com/kotlin/kotlin-dev" }
+        mavenCentral()
+        maven { url "https://dl.bintray.com/kotlin/kotlin-eap" }
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.51"
+        classpath "org.jetbrains.kotlin:kotlin-frontend-plugin:0.0.33"
+    }
+}
+
+group = 'jh.greeting'
+version "1.0-SNAPSHOT"
+
+apply plugin: 'org.jetbrains.kotlin.frontend'
+apply plugin: "kotlin2js"
+
+repositories {
+    maven { url "http://dl.bintray.com/kotlin/kotlin-dev" }
+    maven { url "http://dl.bintray.com/kotlinx/kotlinx" }
+    maven { url "http://dl.bintray.com/hypnosphi/kotlin-wrappers" }
+    mavenCentral()
+}
+
+dependencies {
+    compile 'jh.greeting:common-web:1.0'
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:1.2.51"
+}
+
+kotlinFrontend {
+    webpackBundle {
+        bundleName = "main"
+        contentPath = file('src/main/web')
+    }
+}
+
+compileKotlin2Js {
+    kotlinOptions.metaInfo = true
+    kotlinOptions.outputFile = "$project.buildDir.path/js/${project.name}.js"
+    kotlinOptions.sourceMap = true
+    kotlinOptions.moduleKind = 'commonjs'
+    kotlinOptions.main = "call"
+}
+
+compileTestKotlin2Js {
+    kotlinOptions.metaInfo = true
+    kotlinOptions.moduleKind = 'commonjs'
+}

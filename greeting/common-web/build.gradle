@@ -1,0 +1,16 @@
+apply plugin: 'kotlin-platform-js'
+group = 'jh.greeting'
+version = 1.0
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
+    expectedBy project(":greeting:common")
+}
+
+[compileKotlin2Js, compileTestKotlin2Js]*.configure {
+    kotlinOptions {
+        sourceMap = true
+        sourceMapEmbedSources = "always"
+        moduleKind = "commonjs"
+    }
+}
