@@ -1,0 +1,5 @@
+headers = RxSwift-Swift.h
+package = platform.RxSwift
+language = Objective-C
+linkerOpts = -framework RxSwift
+compilerOpts = -framework RxSwift

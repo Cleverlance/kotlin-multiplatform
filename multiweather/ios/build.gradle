@@ -1,36 +1,92 @@
 apply plugin: 'konan'
 
-konan.targets = [
-    'ios_arm64', 'ios_x64'
-]
-        
+// Specify targets to build the framework: iOS and iOS simulator
+konan.targets = ['ios_arm64', 'ios_x64']
+
 konanArtifacts {
-    framework('MultiWeather') {
+//    def productsDir = new File("Frameworks").absolutePath
+    def helperLibDir = getHelperlibDirPath()
+    def productsDir = "/Users/vitmichal/Kotlin_iOS_workshop/kotlin-multiweather/multiweather/ios/Frameworks/"
+
+    interop("RxBlocking") {
+        defFile "src/main/c_interop/RxBlocking.def" // TODO: path to .def
+
+        compilerOpts "-F${productsDir}", "-F${helperLibDir}"
+        linkerOpts "-F${productsDir}", "-F${helperLibDir}"
+
+        includeDirs "/Users/vitmichal/Kotlin_iOS_workshop/kotlin-multiweather/multiweather/ios/Frameworks/RxBlocking.framework/Headers/"
+    }
+
+    interop("RxCocoa") {
+        defFile "src/main/c_interop/RxCocoa.def" // TODO: path to .def
+
+        compilerOpts "-F${productsDir}", "-F${helperLibDir}"
+        linkerOpts "-F${productsDir}", "-F${helperLibDir}"
+
+        includeDirs "/Users/vitmichal/Kotlin_iOS_workshop/kotlin-multiweather/multiweather/ios/Frameworks/RxCocoa.framework/Headers/"
+    }
+
+    interop("RxSwift") {
+        defFile "src/main/c_interop/RxSwift.def" // TODO: path to .def
+
+        compilerOpts "-F${productsDir}", "-F${helperLibDir}"
+        linkerOpts "-F${productsDir}", "-F${helperLibDir}"
+
+        includeDirs "/Users/vitmichal/Kotlin_iOS_workshop/kotlin-multiweather/multiweather/ios/Frameworks/RxSwift.framework/Headers/"
+    }
+
+    // Declare building into a framework.
+    framework('Multiweather') {
+        // The multiplatform support is disabled by default.
         enableMultiplatform true
-        srcDir 'src/main/kotlin'
         extraOpts '-module_name', ''
-    }
 
-    library('NativeLib') {
-        enableMultiplatform true
-    }
-
-    program('NativeTest') {
-        srcDir 'src/test/kotlin'
-        commonSourceSet 'test'
         libraries {
-            artifact 'NativeLib'
+            artifact "RxBlocking"
+            artifact "RxCocoa"
+            artifact "RxSwift"
         }
-        extraOpts '-tr'
     }
-}
-
-task test(dependsOn: 'compileKonanNativeTestIos_x64', type: Exec) {
-    def textExecutable = tasks["compileKonanNativeTestIos_x64"].artifactPath
-    commandLine("xcrun", "simctl", "spawn", "iPhone 8", textExecutable)
 }
 
 dependencies {
     // Specify dependency on a common project for Kotlin multiplatform build
     expectedBy project(':multiweather:common')
+}
+
+String getHelperlibDirPath() {
+    String workspacePath = "MultiWeatherApp.xcworkspace"
+    String scheme = "Multiweather"
+    String sdk = "iphoneos"
+
+    String path = runCommandForOutput(Arrays.asList("/bin/sh", "-c",
+        ("xcodebuild -scheme ${scheme} -workspace ${workspacePath} ONLY_ACTIVE_ARCH=NO -sdk ${sdk} -configuration Debug -showBuildSettings " + 
+        "| grep -m 1 \"TARGET_BUILD_DIR\" " + 
+        "| cut -d= -f2").toString()))
+
+    project.logger.debug("XCode helperlib path: $path")
+
+    return path
+}
+
+String runCommandForOutput(List<String> params) {
+    project.logger.debug("Running command " + params);
+
+    ProcessBuilder pb = new ProcessBuilder(params);
+    Process p;
+    String result = "";
+    try {
+        p = pb.start();
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+
+        StringJoiner sj = new StringJoiner(System.getProperty("line.separator"));
+        reader.lines().iterator().forEachRemaining { s -> sj.add(s) };
+        result = sj.toString();
+
+        p.waitFor();
+        p.destroy();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return result.trim();
 }

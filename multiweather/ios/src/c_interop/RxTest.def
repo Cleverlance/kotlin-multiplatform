@@ -1,0 +1,5 @@
+headers = RxBlocking-Swift.h RxCocoa-Swift.h RxSwift-Swift.h RxTest-Swift.h
+package = platform.libs
+language = Objective-C
+linkerOpts = -framework RxBlocking -framework RxCocoa -framework RxSwift -framework RxTest 
+compilerOpts = -framework RxBlocking -framework RxCocoa -framework RxSwift -framework RxTest 

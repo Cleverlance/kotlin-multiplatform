@@ -1,0 +1,6 @@
+depends = Foundation UIKit darwin posix
+headers = RxCocoa.h RxCocoa-Swift.h
+package = platform.RxCocoa
+language = Objective-C
+linkerOpts = -framework RxCocoa
+compilerOpts = -fmodules -framework RxCocoa

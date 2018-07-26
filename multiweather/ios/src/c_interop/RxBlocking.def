@@ -1,0 +1,6 @@
+depends = Foundation UIKit darwin posix
+headers = RxBlocking-Swift.h
+package = platform.RxBlocking
+language = Objective-C
+linkerOpts = -framework RxBlocking
+compilerOpts = -framework RxBlocking
