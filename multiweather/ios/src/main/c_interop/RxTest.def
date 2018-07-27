@@ -1,0 +1,5 @@
+headers = RxTest-Swift.h
+package = platform.libs
+language = Objective-C
+linkerOpts = -framework RxTest 
+compilerOpts = -framework RxTest 
