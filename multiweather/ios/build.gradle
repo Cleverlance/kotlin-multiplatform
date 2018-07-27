@@ -4,9 +4,10 @@ apply plugin: 'konan'
 konan.targets = ['ios_arm64', 'ios_x64']
 
 konanArtifacts {
-//    def productsDir = new File("Frameworks").absolutePath
-    def helperLibDir = getHelperlibDirPath()
-    def productsDir = "/Users/vitmichal/Kotlin_iOS_workshop/kotlin-multiweather/multiweather/ios/Frameworks/"
+    def frameworksDir = "${projectDir}/Frameworks"
+    def productsDir = frameworksDir
+    // def helperLibDir = getHelperlibDirPath()
+    def helperLibDir = frameworksDir
 
     interop("RxBlocking") {
         defFile "src/main/c_interop/RxBlocking.def" // TODO: path to .def
@@ -14,7 +15,7 @@ konanArtifacts {
         compilerOpts "-F${productsDir}", "-F${helperLibDir}"
         linkerOpts "-F${productsDir}", "-F${helperLibDir}"
 
-        includeDirs "/Users/vitmichal/Kotlin_iOS_workshop/kotlin-multiweather/multiweather/ios/Frameworks/RxBlocking.framework/Headers/"
+        includeDirs "${frameworksDir}/RxBlocking.framework/Headers"
     }
 
     interop("RxCocoa") {
@@ -23,7 +24,7 @@ konanArtifacts {
         compilerOpts "-F${productsDir}", "-F${helperLibDir}"
         linkerOpts "-F${productsDir}", "-F${helperLibDir}"
 
-        includeDirs "/Users/vitmichal/Kotlin_iOS_workshop/kotlin-multiweather/multiweather/ios/Frameworks/RxCocoa.framework/Headers/"
+        includeDirs "${frameworksDir}/RxCocoa.framework/Headers/"
     }
 
     interop("RxSwift") {
@@ -32,7 +33,7 @@ konanArtifacts {
         compilerOpts "-F${productsDir}", "-F${helperLibDir}"
         linkerOpts "-F${productsDir}", "-F${helperLibDir}"
 
-        includeDirs "/Users/vitmichal/Kotlin_iOS_workshop/kotlin-multiweather/multiweather/ios/Frameworks/RxSwift.framework/Headers/"
+        includeDirs "${frameworksDir}/RxSwift.framework/Headers/"
     }
 
     // Declare building into a framework.
