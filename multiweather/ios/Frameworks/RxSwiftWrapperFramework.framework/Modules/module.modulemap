@@ -1,0 +1,11 @@
+framework module RxSwiftWrapperFramework {
+  umbrella header "RxSwiftWrapperFramework.h"
+
+  export *
+  module * { export * }
+}
+
+module RxSwiftWrapperFramework.Swift {
+    header "RxSwiftWrapperFramework-Swift.h"
+    requires objc
+}

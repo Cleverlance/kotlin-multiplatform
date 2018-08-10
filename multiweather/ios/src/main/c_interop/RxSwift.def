@@ -1,3 +1,4 @@
+depends = Foundation
 headers = RxSwift-Swift.h
 package = platform.RxSwift
 language = Objective-C

@@ -1,0 +1,6 @@
+depends = Foundation UIKit darwin posix
+headers = RxObjC.h
+package = platform.RxObjC
+language = Objective-C
+linkerOpts = -framework RxObjC
+compilerOpts = -framework RxObjC

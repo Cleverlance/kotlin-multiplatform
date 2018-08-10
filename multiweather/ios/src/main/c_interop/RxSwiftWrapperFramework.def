@@ -1,0 +1,10 @@
+depends = Foundation
+package = platform.RxSwiftWrapperFramework
+language = Objective-C
+linkerOpts = -framework RxSwiftWrapperFramework
+compilerOpts = -fmodules -framework RxSwiftWrapperFramework
+headers = RxSwiftWrapperFramework-Swift.h RxSwiftWrapperFramework.h 
+
+---
+@interface WrapperCompletable (Dummy)
+@end;

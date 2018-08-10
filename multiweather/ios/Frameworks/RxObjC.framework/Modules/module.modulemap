@@ -1,0 +1,6 @@
+framework module RxObjC {
+  umbrella header "RxObjC.h"
+
+  export *
+  module * { export * }
+}

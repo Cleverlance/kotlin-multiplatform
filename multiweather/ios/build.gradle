@@ -9,31 +9,22 @@ konanArtifacts {
     // def helperLibDir = getHelperlibDirPath()
     def helperLibDir = frameworksDir
 
-    interop("RxBlocking") {
-        defFile "src/main/c_interop/RxBlocking.def" // TODO: path to .def
+    interop("RxObjC") {
+        defFile "src/main/c_interop/RxObjC.def" // TODO: path to .def
 
         compilerOpts "-F${productsDir}", "-F${helperLibDir}"
         linkerOpts "-F${productsDir}", "-F${helperLibDir}"
 
-        includeDirs "${frameworksDir}/RxBlocking.framework/Headers"
+        includeDirs "${frameworksDir}/RxObjC.framework/Headers"
     }
 
-    interop("RxCocoa") {
-        defFile "src/main/c_interop/RxCocoa.def" // TODO: path to .def
+    interop("RxSwiftWrapperFramework") {
+        defFile "src/main/c_interop/RxSwiftWrapperFramework.def" // TODO: path to .def
 
         compilerOpts "-F${productsDir}", "-F${helperLibDir}"
         linkerOpts "-F${productsDir}", "-F${helperLibDir}"
 
-        includeDirs "${frameworksDir}/RxCocoa.framework/Headers/"
-    }
-
-    interop("RxSwift") {
-        defFile "src/main/c_interop/RxSwift.def" // TODO: path to .def
-
-        compilerOpts "-F${productsDir}", "-F${helperLibDir}"
-        linkerOpts "-F${productsDir}", "-F${helperLibDir}"
-
-        includeDirs "${frameworksDir}/RxSwift.framework/Headers/"
+        includeDirs "${frameworksDir}/RxSwiftWrapperFramework.framework/Headers"
     }
 
     // Declare building into a framework.
@@ -43,10 +34,11 @@ konanArtifacts {
         extraOpts '-module_name', ''
 
         libraries {
-            artifact "RxBlocking"
-            artifact "RxCocoa"
-            artifact "RxSwift"
+            artifact "RxSwiftWrapperFramework"
+            artifact "RxObjC"
         }
+
+        linkerOpts '-rpath', "${frameworksDir}"
     }
 }
 

@@ -1,0 +1,5 @@
+headers = Groot-umbrella.h Groot.h GRTError.h GRTJSONSerialization.h GRTManagedStore.h NSValueTransformer+Groot.h
+package = platform.Groot
+language = Objective-C
+linkerOpts = -framework Groot
+compilerOpts = -fmodules -framework Groot
