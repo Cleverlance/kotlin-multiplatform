@@ -6,9 +6,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import jh.shared.listeners.infrastructure.Subscription
 import javax.inject.Inject
 
 abstract class RxFragment<M : Any> : Fragment() {
@@ -16,12 +14,12 @@ abstract class RxFragment<M : Any> : Fragment() {
     @Inject protected lateinit var viewModel: M
 
     protected abstract val layoutResId: Int
-    private val disposables = CompositeDisposable()
+    private val subscriptions = mutableListOf<Subscription>()
     private var isInitializingView = true
 
     protected abstract fun inject()
 
-    protected open fun bindViewModelToUi() = listOf<Disposable>()
+    protected open fun bindViewModelToUi() = listOf<Subscription>()
 
     protected open fun bindUiToViewModel() {}
 
@@ -48,18 +46,19 @@ abstract class RxFragment<M : Any> : Fragment() {
 
         isInitializingView = false
 
-        disposables.clear()
-        disposables.addAll(*bindViewModelToUi().toTypedArray())
+        with(subscriptions) {
+            forEach { it.unsubscribe() }
+            clear()
+            addAll(bindViewModelToUi())
+        }
     }
 
     @CallSuper
     override fun onStop() {
         super.onStop()
 
-        disposables.clear()
+        subscriptions.clear()
 
         isInitializingView = true
     }
-
-    protected fun <T> Observable<T>.filterNotInitializingView(): Observable<T> = filter { !isInitializingView }
 }

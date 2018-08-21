@@ -3,9 +3,7 @@ package jh.shared.arch.ui
 import android.os.Bundle
 import android.support.annotation.CallSuper
 import android.support.v7.app.AppCompatActivity
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
+import jh.shared.listeners.infrastructure.Subscription
 import javax.inject.Inject
 
 abstract class RxActivity<M : Any> : AppCompatActivity() {
@@ -13,12 +11,12 @@ abstract class RxActivity<M : Any> : AppCompatActivity() {
     @Inject protected lateinit var viewModel: M
 
     protected abstract val layoutResId: Int
-    private val disposables = CompositeDisposable()
+    private val subscriptions = mutableListOf<Subscription>()
     private var isInitializingView = false
 
     protected abstract fun inject()
 
-    protected open fun bindViewModelToUi() = listOf<Disposable>()
+    protected open fun bindViewModelToUi() = listOf<Subscription>()
 
     protected open fun bindUiToViewModel() {}
 
@@ -43,16 +41,14 @@ abstract class RxActivity<M : Any> : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        disposables.clear()
-        disposables.addAll(*bindViewModelToUi().toTypedArray())
+        subscriptions.clear()
+        subscriptions.addAll(bindViewModelToUi())
     }
 
     @CallSuper
     override fun onStop() {
         super.onStop()
 
-        disposables.clear()
+        subscriptions.clear()
     }
-
-    protected fun <T> Observable<T>.filterNotInitializingView(): Observable<T> = filter { !isInitializingView }
 }

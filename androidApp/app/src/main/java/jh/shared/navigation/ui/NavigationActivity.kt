@@ -1,13 +1,13 @@
 package jh.shared.navigation.ui
 
 import android.support.annotation.CallSuper
-import com.jakewharton.rxrelay2.PublishRelay
 import jh.shared.arch.ui.RxActivity
+import jh.shared.listeners.infrastructure.MutableObservable
 import jh.shared.navigation.presentation.NavigationViewModel
 
 abstract class NavigationActivity<M : NavigationViewModel<S>, S : Any> : RxActivity<M>() {
 
-    private val backRelay = PublishRelay.create<Unit>()
+    private val backRelay = MutableObservable<Unit>()
 
     @CallSuper
     override fun bindUiToViewModel() {
@@ -20,6 +20,6 @@ abstract class NavigationActivity<M : NavigationViewModel<S>, S : Any> : RxActiv
     )
 
     final override fun onBackPressed() {
-        backRelay.accept(Unit)
+        backRelay.post(Unit)
     }
 }

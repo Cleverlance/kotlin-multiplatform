@@ -2,7 +2,6 @@ package jh.multiweather.current.ui
 
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import io.reactivex.android.schedulers.AndroidSchedulers.mainThread
 import jh.multiplatform.R
 import jh.multiweather.current.presentation.CurrentWeatherViewModel
 import jh.multiweather.main.ui.MainApplication
@@ -22,8 +21,6 @@ class CurrentWeatherFragment : RxFragment<CurrentWeatherViewModel>() {
 
     override fun bindViewModelToUi() = listOf(
             viewModel.states
-                    // TODO remove observeOn operator when RxAndroid issues are resolved
-                    .observeOn(mainThread())
                     .subscribe {
                         it.currentWeather.let {
                             date.text = it?.timestamp
