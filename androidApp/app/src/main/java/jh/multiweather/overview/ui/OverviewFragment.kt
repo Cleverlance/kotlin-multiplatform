@@ -1,11 +1,11 @@
 package jh.multiweather.overview.ui
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH
-import com.jakewharton.rxbinding2.widget.editorActions
-import com.jakewharton.rxbinding2.widget.textChanges
 import jh.multiplatform.R
 import jh.multiweather.main.ui.MainApplication
 import jh.multiweather.overview.platform.OverviewViewModel
@@ -32,12 +32,23 @@ class OverviewFragment : RxFragment<OverviewViewModel>() {
             }
         }
 
-        input.editorActions()
-                .filter { it == IME_ACTION_SEARCH }
-                .subscribe { viewModel.refresh() }
+        input.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == IME_ACTION_SEARCH) viewModel.refresh()
+            true
+        }
     }
 
     override fun bindUiToViewModel() {
-        input.textChanges().subscribe { viewModel.setCity(it.toString()) }
+        input.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(editable: Editable?) {
+            }
+
+            override fun beforeTextChanged(sequence: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(sequence: CharSequence, start: Int, before: Int, count: Int) {
+                viewModel.setCity(sequence.toString())
+            }
+        })
     }
 }

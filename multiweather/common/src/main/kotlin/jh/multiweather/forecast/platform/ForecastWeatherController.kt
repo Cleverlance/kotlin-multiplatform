@@ -7,10 +7,9 @@ import jh.multiweather.shared.io.WeatherServiceParams
 import jh.multiweather.shared.model.toLanguage
 import jh.shared.inject.infrastructure.Inject
 import jh.shared.inject.infrastructure.Singleton
+import jh.shared.listeners.infrastructure.MutableObservable
+import jh.shared.listeners.infrastructure.Observable
 import jh.shared.locale.platform.LocaleController
-import jh.shared.rx.infrastructure.Schedulers
-import jh.shared.rx.infrastructure.Single
-import jh.shared.rx.infrastructure.map
 
 @Singleton
 class ForecastWeatherController @Inject constructor(
@@ -18,12 +17,17 @@ class ForecastWeatherController @Inject constructor(
         private val forecastWeatherParser: ForecastWeatherParser,
         private val localeController: LocaleController
 ) {
-    fun load(apiKey: String, city: String): Single<List<ForecastWeather>> = forecastWeatherService.load(
-            apiKey,
-            city,
-            localeController.getCurrentLocale().toLanguage().apiCode,
-            WeatherServiceParams.METRIC_UNITS
-    )
-            .observeOn(Schedulers.computation())
-            .map { forecastWeatherParser.parse(it) }
+    private val dataObservable = MutableObservable<List<ForecastWeather>>()
+
+    fun load(apiKey: String, city: String): Observable<List<ForecastWeather>> {
+        forecastWeatherService.load(
+                apiKey,
+                city,
+                localeController.getCurrentLocale().toLanguage().apiCode,
+                WeatherServiceParams.METRIC_UNITS
+        )
+                .subscribe { dataObservable.post(forecastWeatherParser.parse(it)) }
+
+        return dataObservable.observable
+    }
 }

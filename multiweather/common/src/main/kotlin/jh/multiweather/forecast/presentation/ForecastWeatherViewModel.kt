@@ -9,10 +9,8 @@ import jh.multiweather.shared.platform.InputController
 import jh.shared.datetime.infrastructure.dateTimeFormatterOfPattern
 import jh.shared.inject.infrastructure.Inject
 import jh.shared.inject.infrastructure.Singleton
-import jh.shared.rx.infrastructure.Observable
-import jh.shared.rx.infrastructure.createBehaviorSubject
-import jh.shared.rx.infrastructure.map
-import jh.shared.rx.infrastructure.subscribe
+import jh.shared.listeners.infrastructure.MutableObservable
+import jh.shared.listeners.infrastructure.Observable
 import kotlin.math.roundToInt
 
 @Singleton
@@ -24,15 +22,15 @@ class ForecastWeatherViewModel @Inject constructor(
         private const val API_KEY = "060babdcb0097cb661c39c2c9e6c4a09"
     }
 
-    private val statesSubject = createBehaviorSubject(ForecastWeatherState())
+    private val statesObservable = MutableObservable(notifyLastEmissionOnSubscription = true, defaultValue = ForecastWeatherState())
 
-    val states: Observable<ForecastWeatherState> = statesSubject.hide()
+    val states: Observable<ForecastWeatherState> = statesObservable.observable
 
     fun refresh() {
-        statesSubject.onNext(ForecastWeatherState(isLoadingVisible = true))
+        statesObservable.post(ForecastWeatherState(isLoadingVisible = true))
 
         forecastWeatherController.load(API_KEY, inputController.city)
-                .map {
+                .subscribe {
                     it
                             .filter { it.timestamp != null }
                             .groupBy { it.timestamp!!.toLocalDate() }
@@ -51,20 +49,13 @@ class ForecastWeatherViewModel @Inject constructor(
                                             })
                                         }
                             }
+                            .let {
+                                statesObservable.post(ForecastWeatherState(
+                                        forecastWeathers = it,
+                                        isForecastWeatherVisible = true,
+                                        isLoadingVisible = false
+                                ))
+                            }
                 }
-                // TODO observe on mainThread when AndroidSchedulers are available in android module
-                .subscribe({
-                    statesSubject.onNext(ForecastWeatherState(
-                            forecastWeathers = it,
-                            isForecastWeatherVisible = true,
-                            isLoadingVisible = false
-                    ))
-                }, {
-                    statesSubject.onNext(ForecastWeatherState(
-                            isLoadingVisible = false,
-                            errorMessage = it.toString(),
-                            isErrorMessageVisible = true
-                    ))
-                })
     }
 }

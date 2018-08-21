@@ -9,10 +9,7 @@ import jh.multiweather.shared.platform.InputController
 import jh.shared.datetime.infrastructure.dateTimeFormatterOfPattern
 import jh.shared.inject.infrastructure.Inject
 import jh.shared.inject.infrastructure.Singleton
-import jh.shared.rx.infrastructure.Observable
-import jh.shared.rx.infrastructure.createBehaviorSubject
-import jh.shared.rx.infrastructure.map
-import jh.shared.rx.infrastructure.subscribe
+import jh.shared.listeners.infrastructure.MutableObservable
 import kotlin.math.roundToInt
 
 @Singleton
@@ -24,15 +21,15 @@ class CurrentWeatherViewModel @Inject constructor(
         private const val API_KEY = "060babdcb0097cb661c39c2c9e6c4a09"
     }
 
-    private val statesSubject = createBehaviorSubject(CurrentWeatherState())
+    private val statesObservable = MutableObservable(notifyLastEmissionOnSubscription = true, defaultValue = CurrentWeatherState())
 
-    val states: Observable<CurrentWeatherState> = statesSubject.hide()
+    val states = statesObservable.observable
 
     fun refresh() {
-        statesSubject.onNext(CurrentWeatherState(isLoadingVisible = true))
+        statesObservable.post(CurrentWeatherState(isLoadingVisible = true))
 
         currentWeatherController.load(API_KEY, inputController.city)
-                .map {
+                .subscribe {
                     CurrentWeatherFormatted(
                             it.timestamp?.format(dateTimeFormatterOfPattern("dd. LLLL H:mm")),
                             it.location,
@@ -45,21 +42,14 @@ class CurrentWeatherViewModel @Inject constructor(
                             it.sunriseTimestamp?.format(dateTimeFormatterOfPattern("H:mm")),
                             it.sunsetTimestamp?.format(dateTimeFormatterOfPattern("H:mm"))
                     )
+                            .let {
+                                statesObservable.post(CurrentWeatherState(
+                                        currentWeather = it,
+                                        isCurrentWeatherVisible = true,
+                                        isLoadingVisible = false
+                                ))
+                            }
                 }
-                // TODO observe on mainThread when AndroidSchedulers are available in android module
-                .subscribe({
-                    statesSubject.onNext(CurrentWeatherState(
-                            currentWeather = it,
-                            isCurrentWeatherVisible = true,
-                            isLoadingVisible = false
-                    ))
-                }, {
-                    statesSubject.onNext(CurrentWeatherState(
-                            isLoadingVisible = false,
-                            errorMessage = it.toString(),
-                            isErrorMessageVisible = true
-                    ))
-                })
     }
 }
 
