@@ -15,7 +15,6 @@ abstract class RxFragment<M : Any> : Fragment() {
 
     protected abstract val layoutResId: Int
     private val subscriptions = mutableListOf<Subscription>()
-    private var isInitializingView = true
 
     protected abstract fun inject()
 
@@ -44,8 +43,6 @@ abstract class RxFragment<M : Any> : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        isInitializingView = false
-
         with(subscriptions) {
             forEach { it.unsubscribe() }
             clear()
@@ -57,8 +54,9 @@ abstract class RxFragment<M : Any> : Fragment() {
     override fun onStop() {
         super.onStop()
 
-        subscriptions.clear()
-
-        isInitializingView = true
+        with(subscriptions) {
+            forEach { it.unsubscribe() }
+            clear()
+        }
     }
 }

@@ -12,7 +12,6 @@ abstract class RxActivity<M : Any> : AppCompatActivity() {
 
     protected abstract val layoutResId: Int
     private val subscriptions = mutableListOf<Subscription>()
-    private var isInitializingView = false
 
     protected abstract fun inject()
 
@@ -30,9 +29,7 @@ abstract class RxActivity<M : Any> : AppCompatActivity() {
 
         inject()
 
-        isInitializingView = true
         bindUiToViewModel()
-        isInitializingView = false
     }
 
     protected open fun beforeOnCreate() {}
@@ -41,14 +38,20 @@ abstract class RxActivity<M : Any> : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
-        subscriptions.clear()
-        subscriptions.addAll(bindViewModelToUi())
+        with(subscriptions) {
+            forEach { it.unsubscribe() }
+            clear()
+            addAll(bindViewModelToUi())
+        }
     }
 
     @CallSuper
     override fun onStop() {
         super.onStop()
 
-        subscriptions.clear()
+        with(subscriptions) {
+            forEach { it.unsubscribe() }
+            clear()
+        }
     }
 }
