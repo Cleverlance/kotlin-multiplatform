@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import jh.shared.listeners.infrastructure.Subscription
+import jh.shared.listeners.infrastructure.unsubscribeAllAndClear
 import javax.inject.Inject
 
 abstract class RxFragment<M : Any> : Fragment() {
@@ -43,20 +44,14 @@ abstract class RxFragment<M : Any> : Fragment() {
     override fun onStart() {
         super.onStart()
 
-        with(subscriptions) {
-            forEach { it.unsubscribe() }
-            clear()
-            addAll(bindViewModelToUi())
-        }
+        subscriptions.unsubscribeAllAndClear()
+        subscriptions.addAll(bindViewModelToUi())
     }
 
     @CallSuper
     override fun onStop() {
         super.onStop()
 
-        with(subscriptions) {
-            forEach { it.unsubscribe() }
-            clear()
-        }
+        subscriptions.unsubscribeAllAndClear()
     }
 }

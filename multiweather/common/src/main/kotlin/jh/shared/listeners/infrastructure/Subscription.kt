@@ -4,3 +4,8 @@ interface Subscription {
 
     fun unsubscribe()
 }
+
+fun MutableList<Subscription>.unsubscribeAllAndClear() {
+    forEach { it.unsubscribe() }
+    clear()
+}
